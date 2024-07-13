@@ -5,6 +5,7 @@ import 'ShowCafeteriaMenu.dart';
 import 'SamplePage.dart';
 import 'myPage.dart';
 import 'MonthlyCalendar.dart';
+import 'WriteReview.dart';
 
 class tab2_todays_menu extends StatefulWidget {
   const tab2_todays_menu({super.key});
@@ -192,11 +193,17 @@ class _todays_menuState extends State<tab2_todays_menu>
                                     ),
                                     Row(
                                       children: [
-                                        Icon(Icons.star),
+                                        Icon(Icons.star, color: Colors.amber),
                                         Text(" 4.0")
                                       ],
                                     )
                                   ],
+                                ),
+                                Text(
+                                  '장소: ' + '${menu[index][0]}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
                                 ),
                                 Text(
                                   '${menu[index][2]}',
@@ -296,7 +303,7 @@ class _todays_menuState extends State<tab2_todays_menu>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => sample_page(),
+                        builder: (context) => write_review(),
                       ),
                     );
                   },
@@ -308,7 +315,7 @@ class _todays_menuState extends State<tab2_todays_menu>
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(children: [
-                        Text("리뷰 쓰기"),
+                        Text("리뷰 작성하기"),
                         Image.asset(
                           "assets/sample_image.jpg",
                           fit: BoxFit.cover,

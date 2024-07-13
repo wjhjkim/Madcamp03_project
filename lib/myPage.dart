@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:madcamp03/SamplePage.dart';
+import 'HeartPage.dart';
+import 'AllergyPage.dart';
+import 'ReviewPage.dart';
 
 class my_page extends StatefulWidget {
   const my_page({super.key});
@@ -22,19 +26,22 @@ class _my_page extends State<my_page>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Text(
-                nickname,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+            Text(
+              "환영합니다, " + nickname,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () {
-                // 자신이 하트를 누른 메뉴 볼 수 있는 버튼
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Heartpage(),
+                  ),
+                );
               },
               icon: Icon(Icons.favorite),
               label: Text('하트를 누른 메뉴'),
@@ -45,7 +52,12 @@ class _my_page extends State<my_page>
             SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () {
-                // 알레르기 관리할 수 있는 버튼
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AllergyPage(),
+                  ),
+                );
               },
               icon: Icon(Icons.warning),
               label: Text('알레르기 관리'),
@@ -56,7 +68,12 @@ class _my_page extends State<my_page>
             SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () {
-                // 쓴 리뷰 확인하는 버튼
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => reviewlistpage(),
+                  ),
+                );
               },
               icon: Icon(Icons.reviews),
               label: Text('쓴 리뷰 확인'),

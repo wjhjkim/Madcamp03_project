@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'ChangeTextScreen.dart';
+import 'menuDetailPage.dart';
 
 class show_cafeteria_menu extends StatefulWidget {
   const show_cafeteria_menu({super.key});
@@ -51,21 +50,6 @@ class _show_menu extends State<show_cafeteria_menu>
     });
   }
 
-  void _pickDate() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDate != null && pickedDate != _selectedDate) {
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -75,98 +59,7 @@ class _show_menu extends State<show_cafeteria_menu>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Row(children: [
-      //     Text(
-      //         "Lunch, 카이마루",
-      //         style: TextStyle(
-      //           fontSize: 24,
-      //       ),
-      //     ),
-      //   ]),
-      //   shape: Border(
-      //     bottom: BorderSide(
-      //       color: Colors.grey,
-      //       width: 8,
-      //     ),
-      //   ),
-      // ),
       body: MyCustomScrollView(),
-      // body: Column(children: [
-      //   MyCustomScrollView(),
-      //   Image.asset(
-      //     "assets/sample_image.jpg",
-      //     height: 300,
-      //     fit: BoxFit.cover,
-      //   ),
-      //   Container(
-      //     height: 8,
-      //     color: Colors.grey,
-      //   ),
-      //   Padding(
-      //     padding: const EdgeInsets.all(8.0),
-      //     child: Column(
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       children: <Widget>[
-      //         Container(
-      //           height: 100,
-      //           child: Card(
-      //                 elevation: 4,
-      //                 shape: RoundedRectangleBorder(
-      //                   borderRadius: BorderRadius.circular(16),
-      //                 ),
-      //                 child: Padding(
-      //                   padding: const EdgeInsets.all(16.0),
-      //                   child: Column(
-      //                     mainAxisAlignment: MainAxisAlignment.center,
-      //                     children: [
-      //
-      //                       Row(
-      //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                         children: [
-      //                           Text(
-      //                             '${menu[0][1]}',
-      //                             style: TextStyle(
-      //                               fontSize: 24,
-      //                               fontWeight: FontWeight.bold,
-      //                             ),
-      //                           ),
-      //                           Column(
-      //                             children: [
-      //                           Row(
-      //                             children: [Icon(Icons.star), Text(" 4.0")],
-      //                           ),
-      //
-      //                               ])
-      //                         ],
-      //                       )
-      //                     ],
-      //                   ),
-      //                 ),
-      //               )
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      //   Text("오늘의 반찬", style: TextStyle(fontSize: 24, ),),
-      //   _buildFoodListWidget(),
-      // ]),
-    );
-  }
-
-  Widget _buildFoodListWidget() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: menu.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              title: Text(menu[index][1]),
-              subtitle: Text(menu[index].sublist(2).toString()),
-            ),
-          );
-        },
-      ),
     );
   }
 }
@@ -210,15 +103,20 @@ class MyCustomScrollView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Lunch, 카이마루',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Lunch, 카이마루',
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text('2024.09.06. 11:30 ~ 13:30')
+                              ]),
                           Row(
-                            children: [Icon(Icons.star), Text(" 4.0")],
+                            children: [Icon(Icons.star, color: Colors.amber), Text(" 4.0")],
                           ),
                         ],
                       )
@@ -235,25 +133,49 @@ class MyCustomScrollView extends StatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              return Card(
-                  child: ListTile(
-                title: Text(menu[0][index]),
-                subtitle: Text(menu[0].sublist(2).toString()),
-                trailing: SizedBox(
-                  width: 80, // 적절한 크기를 설정합니다.
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.favorite_border),
-                      Icon(Icons.star),
-                      Text(" 4.0")
-                    ],
-                  ),
-                ),
-              ));
+              return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => menuDetailPage(),
+                      ),
+                    );
+                  },
+                  child: Card(
+                      child: ListTile(
+                    title: Text(
+                      menu[0][index],
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "알레르기 정보: " + menu[0].sublist(2).toString(),
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    trailing: SizedBox(
+                      width: 80, // 적절한 크기를 설정합니다.
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.favorite_border),
+                          Icon(Icons.star, color: Colors.amber),
+                          Text(" 4.0")
+                        ],
+                      ),
+                    ),
+                  )));
             },
             childCount: menu[0].length,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              '알레르기 표기 정보: 1.난류 2.우유 3.메밀 4.땅콩 5.대두 6.밀 7.고등어 8.게 9.새우 10.돼지고기 11.복숭아 12.토마토 13.아황산류 14.호두 15.닭고기 16.쇠고기 17.오징어 18.조개류 (굴, 전복, 홍합 포함)19.잣',
+              style: TextStyle(fontSize: 10),
+            ),
           ),
         ),
       ],
