@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madcamp03/SamplePage.dart';
+import 'package:provider/provider.dart';
+import 'main.dart';
 
 class AllergyPage extends StatefulWidget {
   const AllergyPage({super.key});
@@ -9,37 +11,25 @@ class AllergyPage extends StatefulWidget {
 }
 
 class _AllergyManagementPageState extends State<AllergyPage> {
-  final Map<String, bool> _allergies = {
-    '난류': false,
-    '우유': false,
-    '메밀': false,
-    '땅콩': false,
-    '대두': false,
-    '밀': false,
-    '고등어': false,
-    '게': false,
-    '새우': false,
-    '돼지고기': false,
-    '복숭아': false,
-    '토마토': false,
-    '아황산류': false,
-    '호두': false,
-    '닭고기': false,
-    '쇠고기': false,
-    '오징어': false,
-    '조개류 (굴, 전복, 홍합 포함)': false,
-    '잣': false,
-  };
+  Map<String, bool> _allergies = {  };
 
   void _saveAllergies() {
     // 여기에 알레르기 정보를 저장하는 로직을 추가할 수 있습니다.
+    final allergies = Provider.of<Allergy>(context, listen: false);
+    allergies.saveAllergies(_allergies);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('알레르기 정보가 저장되었습니다.')),
     );
+
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final allergies = Provider.of<Allergy>(context);
+    _allergies = allergies.allergies;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('알레르기 관리'),

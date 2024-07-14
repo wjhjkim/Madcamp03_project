@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'menuDetailPage.dart';
+import 'package:intl/intl.dart';
 
 class show_cafeteria_menu extends StatefulWidget {
-  const show_cafeteria_menu({super.key});
+  const show_cafeteria_menu({super.key, required this.date, required this.time, required this.menu});
+
+  final List<String> menu;
+  final DateTime date;
+  final String time;
 
   @override
   _show_menu createState() => _show_menu();
@@ -10,67 +15,59 @@ class show_cafeteria_menu extends StatefulWidget {
 
 class _show_menu extends State<show_cafeteria_menu>
     with TickerProviderStateMixin {
-  String selectedMeal = '아침';
-  DateTime _selectedDate = DateTime.now();
-  final PageController _pageController = PageController(initialPage: 0);
-  List<List<String>> breakfast = [
-    ['1', '주 메뉴 1', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['1.1', '주 메뉴 2', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['2', '주 메뉴 3', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['3', '주 메뉴 4', '국 1', '반찬 1', '반찬 2', '반찬 3']
-  ];
-  List<List<String>> lunch = [
-    ['카이마루', '주 메뉴 1', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['카이마루', '주 메뉴 2', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['교수회관', '주 메뉴 3', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['동측식당', '주 메뉴 4', '국 1', '반찬 1', '반찬 2', '반찬 3']
-  ];
-  List<List<String>> dinner = [
-    ['카이마루', '주 메뉴 1', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['카이마루', '주 메뉴 2', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['교수회관', '주 메뉴 3', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['동측식당', '주 메뉴 4', '국 1', '반찬 1', '반찬 2', '반찬 3']
-  ];
-  List<List<String>> menu = [];
+  DateTime date = DateTime.now();
+  List<String> menu = [];
+  String time = "";
+  String new_date = "";
   List<bool> isSelected = [true, false, false];
-
-  void updateMenu() {
-    setState(() {
-      switch (selectedMeal) {
-        case '아침':
-          menu = breakfast;
-          break;
-        case '점심':
-          menu = lunch;
-          break;
-        default:
-          menu = dinner;
-          break;
-      }
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    menu = breakfast;
+    menu = widget.menu;
+    date = widget.date;
+    new_date = DateFormat('yyyy년 MM월 dd일').format(date);
+    time = widget.time;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MyCustomScrollView(),
+      body: MyCustomScrollView(date: new_date, time: time, menu: menu,),
     );
   }
 }
 
-class MyCustomScrollView extends StatelessWidget {
-  List<List<String>> menu = [
-    ['카이마루', '주 메뉴 1', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['카이마루', '주 메뉴 2', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['교수회관', '주 메뉴 3', '국 1', '반찬 1', '반찬 2', '반찬 3'],
-    ['동측식당', '주 메뉴 4', '국 1', '반찬 1', '반찬 2', '반찬 3']
-  ];
+class MyCustomScrollView extends StatefulWidget {
+  const MyCustomScrollView({super.key, required this.date, required this.time, required this.menu});
+
+  final List<String> menu;
+  final String date;
+  final String time;
+
+  @override
+  _MyCustomScrollView createState() => _MyCustomScrollView();
+}
+
+class _MyCustomScrollView extends State<MyCustomScrollView> {
+  String date = "";
+  List<String> menu = [];
+  String time = "";
+  String time_stamp = "";
+
+  @override
+  void initState() {
+    super.initState();
+    menu = widget.menu;
+    date = widget.date;
+    time = widget.time;
+    if (time == "아침")
+      time_stamp = "08:00 ~ 09:00";
+    else if (time == "점심")
+      time_stamp = "11:30 ~ 13:30";
+    else
+      time_stamp = "17:30 ~ 19:00";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +78,7 @@ class MyCustomScrollView extends StatelessWidget {
           expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
             background: Image.asset(
-              'assets/sample_image.jpg',
+              menu[1],
               fit: BoxFit.cover,
             ),
           ),
@@ -107,13 +104,13 @@ class MyCustomScrollView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Lunch, 카이마루',
+                                  time + ', ' + menu[0] + ": " + '${menu[2]}원',
                                   style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text('2024.09.06. 11:30 ~ 13:30')
+                                Text(date + ' ' + time_stamp)
                               ]),
                           Row(
                             children: [Icon(Icons.star, color: Colors.amber), Text(" 4.0")],
@@ -138,35 +135,13 @@ class MyCustomScrollView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => menuDetailPage(),
+                        builder: (context) => menuDetailPage(menu_name: menu[index+3]),
                       ),
                     );
                   },
-                  child: Card(
-                      child: ListTile(
-                    title: Text(
-                      menu[0][index],
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    subtitle: Text(
-                      "알레르기 정보: " + menu[0].sublist(2).toString(),
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    trailing: SizedBox(
-                      width: 80, // 적절한 크기를 설정합니다.
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.favorite_border),
-                          Icon(Icons.star, color: Colors.amber),
-                          Text(" 4.0")
-                        ],
-                      ),
-                    ),
-                  )));
+                  child: FavoriteCard(menu: menu.sublist(3), index: index));
             },
-            childCount: menu[0].length,
+            childCount: menu.sublist(3).length,
           ),
         ),
         SliverToBoxAdapter(
@@ -211,5 +186,65 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return maxHeight != oldDelegate.maxExtent ||
         minHeight != oldDelegate.minExtent; // ||
     // child != oldDelegate.child;
+  }
+}
+
+class FavoriteCard extends StatefulWidget {
+  const FavoriteCard({super.key, required this.menu, required this.index});
+
+  final List<String> menu;
+  final int index;
+
+  @override
+  _FavoriteCardState createState() => _FavoriteCardState();
+}
+
+class _FavoriteCardState extends State<FavoriteCard> {
+  bool isFavorite = false;
+  List<String> menu = [];
+  int index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    menu = widget.menu;
+    index = widget.index;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: ListTile(
+          title: Text(
+            menu[index],
+            style: TextStyle(fontSize: 18),
+          ),
+          subtitle: Text(
+            "알레르기 정보: " + "1, 2, 3, 4",
+            style: TextStyle(fontSize: 14),
+          ),
+          trailing: SizedBox(
+            width: 100, // 적절한 크기를 설정합니다.
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isFavorite = !isFavorite;
+                    });
+                  },
+                ),
+                Icon(Icons.star, color: Colors.amber),
+                Text(" 4.0")
+              ],
+            ),
+          ),
+        ));
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'tab2_todays_menu.dart';
 import 'MakeAccount.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+      ChangeNotifierProvider(create: (context) => Allergy(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -195,5 +197,41 @@ class _SplashScreenState extends State<SplashScreen>
         ],
       ),
     );
+  }
+}
+
+class Allergy extends ChangeNotifier {
+  Map<String, bool> _allergies = {
+    '난류': false,
+    '우유': false,
+    '메밀': false,
+    '땅콩': false,
+    '대두': false,
+    '밀': false,
+    '고등어': false,
+    '게': false,
+    '새우': false,
+    '돼지고기': false,
+    '복숭아': false,
+    '토마토': false,
+    '아황산류': false,
+    '호두': false,
+    '닭고기': false,
+    '쇠고기': false,
+    '오징어': false,
+    '조개류 (굴, 전복, 홍합 포함)': false,
+    '잣': false,
+  };
+
+  Map<String, bool> get allergies => _allergies;
+
+  void allergie_set(String name, bool value) {
+    _allergies[name] = value;
+    notifyListeners();
+  }
+
+  void saveAllergies(Map<String, bool> allergies) {
+    _allergies = allergies;
+    notifyListeners();
   }
 }

@@ -36,7 +36,7 @@ class _FavoriteMenuPage extends State<Heartpage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => menuDetailPage(),
+                    builder: (context) => menuDetailPage(menu_name: favoriteMenus[index]),
                   ),
                 );
               },

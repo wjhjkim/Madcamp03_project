@@ -19,6 +19,7 @@ class _make_account extends State<MakeAccount> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('회원가입이 완료되었습니다.')),
       );
+      Navigator.pop(context);
     }
   }
 

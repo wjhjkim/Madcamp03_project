@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class menuDetailPage extends StatefulWidget {
-  const menuDetailPage({super.key});
+  const menuDetailPage({super.key, required this.menu_name});
+
+  final String menu_name;
 
   @override
   _MenuDetailPage createState() => _MenuDetailPage();
@@ -10,20 +12,35 @@ class menuDetailPage extends StatefulWidget {
 
 class Review {
   final String content;
+  final String menuName;
+  final String userName;
   final double rating;
 
-  Review({required this.content, required this.rating});
+  Review(
+      {required this.content,
+      required this.menuName,
+      required this.userName,
+      required this.rating});
 }
 
 class _MenuDetailPage extends State<menuDetailPage> {
-  final String menuImageUrl = 'https://via.placeholder.com/400';
-  final String menuName = 'Spaghetti Carbonara';
+  String menuImageUrl = 'https://via.placeholder.com/400';
+  String menuName = 'Spaghetti Carbonara';
   final double menuRating = 4.5;
+  bool isFavorite = false;
   final List<Review> reviews = [
-    Review(content: '정말 맛있어요!', rating: 5.0),
-    Review(content: '괜찮아요.', rating: 4.0),
-    Review(content: '별로였어요.', rating: 2.0),
+    Review(
+        content: '정말 맛있어요!', menuName: "menu", userName: "String", rating: 5.0),
+    Review(content: '괜찮아요.', menuName: "menu", userName: "String", rating: 3.0),
+    Review(
+        content: '별로였어요.', menuName: "menu", userName: "String", rating: 1.0),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    menuName = widget.menu_name;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +88,17 @@ class _MenuDetailPage extends State<menuDetailPage> {
                                 style: TextStyle(fontSize: 16)),
                           ],
                         ),
-                        Icon(Icons.favorite_border)
+                        IconButton(
+                          icon: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: isFavorite ? Colors.red : Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isFavorite = !isFavorite;
+                            });
+                          },
+                        )
                       ]),
                   SizedBox(height: 16),
                   Text("알레르기 정보: "),
