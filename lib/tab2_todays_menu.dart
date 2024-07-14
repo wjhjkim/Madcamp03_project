@@ -459,7 +459,7 @@ class _todays_menuState extends State<tab2_todays_menu>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => menu_show_one(),
+                        builder: (context) => menu_show_one(date: _selectedDate),
                       ),
                     );
                   },
