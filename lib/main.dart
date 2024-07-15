@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'tab2_todays_menu.dart';
 import 'MakeAccount.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: "assets/.env");
   runApp(
       ChangeNotifierProvider(create: (context) => Allergy(), child: MyApp()));
 }
@@ -15,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome Screen',
+      title: 'login page',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -33,8 +38,86 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   AnimationController? _textController;
   Animation<Offset>? _textAnimation;
+  final TextEditingController _IDcontroller = TextEditingController();
+  final TextEditingController _PWcontroller = TextEditingController();
   bool _showButtons = false;
   bool _startTextAnimation = false;
+  String jwtToken = '';
+
+  Future<void> _sendData() async {
+    final String id = _IDcontroller.text;
+    final String pw = _PWcontroller.text;
+
+    final response = await http.post(
+      Uri.parse('${dotenv.env['SERVER_URL']}/user/login'), // 여기에 실제 서버 URL을 입력하세요
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userID': id,
+        'userPW': pw,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      setState(() {
+        jwtToken = responseData['jwtToken'];
+      });
+      await _saveTokenAndID(jwtToken, id);
+      print('Token saved: $jwtToken');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                tab2_todays_menu()),
+      );
+    } else {
+      print('Failed: ${response.statusCode}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('로그인이 실패했습니다. 오류코드: ${response.statusCode}')),
+      );
+    }
+  }
+
+  Future<void> _loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      jwtToken = prefs.getString('jwtToken') ?? '';
+    });
+    if (jwtToken.isNotEmpty) {
+      _verifyToken(jwtToken);
+    }
+  }
+
+  Future<void> _saveTokenAndID(String token, String ID) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('jwtToken', token);
+    prefs.setString('userID', ID);
+  }
+
+  Future<void> _verifyToken(String token) async {
+    final response = await http.post(
+      Uri.parse('${dotenv.env['SERVER_URL']}/user/jwt'), // 실제 서버 URL을 입력하세요
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'jwtToken': token,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                tab2_todays_menu()),
+      );
+    } else {
+      print('Token verification failed: ${response.statusCode}');
+    }
+  }
 
   @override
   void initState() {
@@ -55,6 +138,8 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
 
+    _loadToken();
+
     _startAnimation();
   }
 
@@ -74,6 +159,8 @@ class _SplashScreenState extends State<SplashScreen>
   void dispose() {
     _textController?.dispose();
     super.dispose();
+    _IDcontroller.dispose();
+    _PWcontroller.dispose();
   }
 
   @override
@@ -87,28 +174,28 @@ class _SplashScreenState extends State<SplashScreen>
               position: _textAnimation!,
               child: _startTextAnimation
                   ? TweenAnimationBuilder<double>(
-                      tween: Tween<double>(begin: 60, end: 50),
-                      duration: Duration(milliseconds: 500),
-                      builder: (context, value, child) {
-                        return Text(
-                          '환영합니다',
-                          style: TextStyle(
-                              fontSize: value, fontWeight: FontWeight.bold),
-                        );
-                      },
-                    )
+                tween: Tween<double>(begin: 60, end: 50),
+                duration: Duration(milliseconds: 500),
+                builder: (context, value, child) {
+                  return Text(
+                    '환영합니다',
+                    style: TextStyle(
+                        fontSize: value, fontWeight: FontWeight.bold),
+                  );
+                },
+              )
                   : Text(
-                      '환영합니다',
-                      style:
-                          TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
-                    ),
+                '환영합니다',
+                style:
+                TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           if (_showButtons)
             Align(
               alignment: Alignment.center,
               child: Container(
-                padding: const EdgeInsets.only(top: 50.0),
+                padding: const EdgeInsets.only(top: 100.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -117,60 +204,97 @@ class _SplashScreenState extends State<SplashScreen>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Container(
-                        color: Colors.grey,
+                        padding: EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 5,
+                              blurRadius: 10,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(height: 10),
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              const EdgeInsets.symmetric(horizontal: 20.0),
                               child: TextField(
+                                controller: _IDcontroller,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: '사용자 이름',
+                                  labelText: '사용자 ID',
+                                  prefixIcon: Icon(Icons.person),
                                 ),
                               ),
                             ),
                             SizedBox(height: 10),
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              const EdgeInsets.symmetric(horizontal: 20.0),
                               child: TextField(
+                                controller: _PWcontroller,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: '비밀번호',
+                                  prefixIcon: Icon(Icons.lock),
                                 ),
                                 obscureText: true,
                               ),
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 20),
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => tab2_todays_menu()),
-                                );
+                                _sendData();
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => tab2_todays_menu()), // 다음 페이지로 이동
+                                // );
                               },
                               child: Text('로그인'),
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size(double.infinity, 48),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor: Colors.blue, // 버튼 배경색
+                                foregroundColor: Colors.white, // 버튼 텍스트 색
+                              ),
                             ),
                             SizedBox(height: 10),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 20),
                     Container(
                       height: 1.0,
                       width: 300.0,
                       color: Colors.grey,
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Container(
-                        color: Colors.grey,
+                        padding: EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 5,
+                              blurRadius: 10,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -180,10 +304,18 @@ class _SplashScreenState extends State<SplashScreen>
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => MakeAccount()),
+                                      builder: (context) => MakeAccount()), // 회원가입 페이지로 이동
                                 );
                               },
                               child: Text('회원가입'),
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size(double.infinity, 48),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor: Colors.green, // 버튼 배경색
+                                foregroundColor: Colors.white, // 버튼 텍스트 색
+                              ),
                             ),
                             SizedBox(height: 10),
                           ],
@@ -197,6 +329,131 @@ class _SplashScreenState extends State<SplashScreen>
         ],
       ),
     );
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     backgroundColor: Colors.white,
+  //     body: Stack(
+  //       children: [
+  //         Center(
+  //           child: SlideTransition(
+  //             position: _textAnimation!,
+  //             child: _startTextAnimation
+  //                 ? TweenAnimationBuilder<double>(
+  //                     tween: Tween<double>(begin: 60, end: 50),
+  //                     duration: Duration(milliseconds: 500),
+  //                     builder: (context, value, child) {
+  //                       return Text(
+  //                         '환영합니다',
+  //                         style: TextStyle(
+  //                             fontSize: value, fontWeight: FontWeight.bold),
+  //                       );
+  //                     },
+  //                   )
+  //                 : Text(
+  //                     '환영합니다',
+  //                     style:
+  //                         TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+  //                   ),
+  //           ),
+  //         ),
+  //         if (_showButtons)
+  //           Align(
+  //             alignment: Alignment.center,
+  //             child: Container(
+  //               padding: const EdgeInsets.only(top: 50.0),
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   Padding(
+  //                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //                     child: Container(
+  //                       color: Colors.grey,
+  //                       child: Column(
+  //                         mainAxisSize: MainAxisSize.min,
+  //                         children: [
+  //                           SizedBox(height: 10),
+  //                           Padding(
+  //                             padding:
+  //                                 const EdgeInsets.symmetric(horizontal: 20.0),
+  //                             child: TextField(
+  //                               controller: _IDcontroller,
+  //                               decoration: InputDecoration(
+  //                                 border: OutlineInputBorder(),
+  //                                 labelText: '사용자 ID',
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           SizedBox(height: 10),
+  //                           Padding(
+  //                             padding:
+  //                                 const EdgeInsets.symmetric(horizontal: 20.0),
+  //                             child: TextField(
+  //                               controller: _PWcontroller,
+  //                               decoration: InputDecoration(
+  //                                 border: OutlineInputBorder(),
+  //                                 labelText: '비밀번호',
+  //                               ),
+  //                               obscureText: true,
+  //                             ),
+  //                           ),
+  //                           SizedBox(height: 10),
+  //                           ElevatedButton(
+  //                             onPressed: () {
+  //                               // _sendData();
+  //                               Navigator.push(
+  //                                 context,
+  //                                 MaterialPageRoute(
+  //                                     builder: (context) => tab2_todays_menu()),
+  //                               );
+  //                             },
+  //                             child: Text('로그인'),
+  //                           ),
+  //                           SizedBox(height: 10),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   SizedBox(height: 10),
+  //                   Container(
+  //                     height: 1.0,
+  //                     width: 300.0,
+  //                     color: Colors.grey,
+  //                   ),
+  //                   SizedBox(height: 10),
+  //                   Padding(
+  //                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+  //                     child: Container(
+  //                       color: Colors.grey,
+  //                       child: Column(
+  //                         mainAxisSize: MainAxisSize.min,
+  //                         children: [
+  //                           SizedBox(height: 10),
+  //                           ElevatedButton(
+  //                             onPressed: () {
+  //                               Navigator.push(
+  //                                 context,
+  //                                 MaterialPageRoute(
+  //                                     builder: (context) => MakeAccount()),
+  //                               );
+  //                             },
+  //                             child: Text('회원가입'),
+  //                           ),
+  //                           SizedBox(height: 10),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //       ],
+  //     ),
+  //   );
   }
 }
 

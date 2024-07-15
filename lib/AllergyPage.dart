@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:madcamp03/SamplePage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
+import 'dart:convert';
 
 class AllergyPage extends StatefulWidget {
   const AllergyPage({super.key});
@@ -11,10 +13,34 @@ class AllergyPage extends StatefulWidget {
 }
 
 class _AllergyManagementPageState extends State<AllergyPage> {
-  Map<String, bool> _allergies = {  };
+  Map<String, bool> _allergies = {};
 
-  void _saveAllergies() {
-    // 여기에 알레르기 정보를 저장하는 로직을 추가할 수 있습니다.
+  @override
+  void initState() {
+    super.initState();
+    _loadAllergies();
+    final allergies = Provider.of<Allergy>(context, listen: false);
+    allergies.saveAllergies(_allergies);
+  }
+
+  Future<void> _loadAllergies() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? allergiesJson = prefs.getString('allergies');
+    if (allergiesJson != null) {
+      final Map<String, bool> loadedAllergies = Map<String, bool>.from(json.decode(allergiesJson));
+      Future.delayed(Duration.zero, () {
+        setState(() {
+          _allergies = loadedAllergies;
+        });
+      });
+    }
+  }
+
+  Future<void> _saveAllergies() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String allergiesJson = json.encode(_allergies);
+    await prefs.setString('allergies', allergiesJson);
+
     final allergies = Provider.of<Allergy>(context, listen: false);
     allergies.saveAllergies(_allergies);
 
@@ -27,9 +53,6 @@ class _AllergyManagementPageState extends State<AllergyPage> {
 
   @override
   Widget build(BuildContext context) {
-    final allergies = Provider.of<Allergy>(context);
-    _allergies = allergies.allergies;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('알레르기 관리'),

@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'menuDetailPage.dart';
 import 'package:intl/intl.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 class show_cafeteria_menu extends StatefulWidget {
-  const show_cafeteria_menu({super.key, required this.date, required this.time, required this.menu});
+  const show_cafeteria_menu(
+      {super.key, required this.date, required this.time, required this.menu});
 
   final List<String> menu;
   final DateTime date;
@@ -33,13 +40,18 @@ class _show_menu extends State<show_cafeteria_menu>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MyCustomScrollView(date: new_date, time: time, menu: menu,),
+      body: MyCustomScrollView(
+        date: new_date,
+        time: time,
+        menu: menu,
+      ),
     );
   }
 }
 
 class MyCustomScrollView extends StatefulWidget {
-  const MyCustomScrollView({super.key, required this.date, required this.time, required this.menu});
+  const MyCustomScrollView(
+      {super.key, required this.date, required this.time, required this.menu});
 
   final List<String> menu;
   final String date;
@@ -113,7 +125,10 @@ class _MyCustomScrollView extends State<MyCustomScrollView> {
                                 Text(date + ' ' + time_stamp)
                               ]),
                           Row(
-                            children: [Icon(Icons.star, color: Colors.amber), Text(" 4.0")],
+                            children: [
+                              Icon(Icons.star, color: Colors.amber),
+                              Text('${menu[3]}')
+                            ],
                           ),
                         ],
                       )
@@ -135,13 +150,14 @@ class _MyCustomScrollView extends State<MyCustomScrollView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => menuDetailPage(menu_name: menu[index+3]),
+                        builder: (context) =>
+                            menuDetailPage(menu_name: menu[index + 4]),
                       ),
                     );
                   },
-                  child: FavoriteCard(menu: menu.sublist(3), index: index));
+                  child: FavoriteCard(menu: menu.sublist(4), index: index));
             },
-            childCount: menu.sublist(3).length,
+            childCount: menu.sublist(4).length,
           ),
         ),
         SliverToBoxAdapter(
@@ -203,48 +219,109 @@ class _FavoriteCardState extends State<FavoriteCard> {
   bool isFavorite = false;
   List<String> menu = [];
   int index = 0;
+  int star = 0;
+  String userID = "";
+  List<int> allergy = [];
+
+  Future<void> _loadUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userID = prefs.getString('userID') ?? '';
+  }
+
+  void _getFoodInfo(String menu_name) async {
+    final response = await http.post(
+      Uri.parse('${dotenv.env['SERVER_URL']}/food'),
+      // 여기에 실제 서버 URL을 입력하세요
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'foodName': menu_name,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      isFavorite = jsonResponse["heart"];
+      allergy = jsonResponse["allergy"];
+      star = jsonResponse["starRating"];
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content:
+                Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+      );
+    }
+  }
+
+  void _changeFavoriteMenus(String menu_name) async {
+    final response = await http.post(
+      Uri.parse('${dotenv.env['SERVER_URL']}/food/change/heart'),
+      // 여기에 실제 서버 URL을 입력하세요
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userID': userID,
+        'foodName': menu_name,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      isFavorite = !isFavorite;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content:
+                Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     menu = widget.menu;
     index = widget.index;
+    // _loadUserID();
+    // _getFavoriteMenus(menu[index]);
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
         child: ListTile(
-          title: Text(
-            menu[index],
-            style: TextStyle(fontSize: 18),
-          ),
-          subtitle: Text(
-            "알레르기 정보: " + "1, 2, 3, 4",
-            style: TextStyle(fontSize: 14),
-          ),
-          trailing: SizedBox(
-            width: 100, // 적절한 크기를 설정합니다.
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isFavorite = !isFavorite;
-                    });
-                  },
-                ),
-                Icon(Icons.star, color: Colors.amber),
-                Text(" 4.0")
-              ],
+      title: Text(
+        menu[index],
+        style: TextStyle(fontSize: 18),
+      ),
+      subtitle: Text(
+        "알레르기 정보: " + allergy.join(", "),
+        style: TextStyle(fontSize: 14),
+      ),
+      trailing: SizedBox(
+        width: 100, // 적절한 크기를 설정합니다.
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : Colors.grey,
+              ),
+              onPressed: () {
+                setState(() {
+                  isFavorite = !isFavorite;
+                  // _changeFavoriteMenus(menu[index]);
+                });
+              },
             ),
-          ),
-        ));
+            Icon(Icons.star, color: Colors.amber),
+            Text(" " + star.toString())
+          ],
+        ),
+      ),
+    ));
   }
 }

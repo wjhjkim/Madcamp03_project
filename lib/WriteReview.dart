@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 class write_review extends StatefulWidget {
   const write_review(
       {super.key, required this.date, required this.time, required this.place});
@@ -27,6 +33,13 @@ class _write_review extends State<write_review> with TickerProviderStateMixin {
   final List<String> _locations = ['카이마루', '동측식당', '서측식당', '교수회관'];
   final List<String> _menus = ['menu1', 'menu2', 'menu3'];
 
+  String userID = "";
+
+  Future<void> _loadUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userID = prefs.getString('userID') ?? '';
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -47,6 +60,7 @@ class _write_review extends State<write_review> with TickerProviderStateMixin {
     _selectedDate = widget.date;
     _selectedMealTime = widget.time;
     _selectedLocation = widget.place;
+    // _loadUserID()
   }
 
   @override
@@ -55,16 +69,36 @@ class _write_review extends State<write_review> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void _submitReview() {
+  void _submitReview() async {
     if (_formKey.currentState!.validate()) {
       // 여기에 리뷰를 제출하는 로직을 추가할 수 있습니다.
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('리뷰가 제출되었습니다.')),
+      final response = await http.post(
+        Uri.parse('${dotenv.env['SERVER_URL']}/review/write'),
+        // 여기에 실제 서버 URL을 입력하세요
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'foodName': _selectedMenu,
+          'userID': userID,
+          'starRating': _rating.toString(),
+          'content': _reviewController.text,
+        }),
       );
-      _reviewController.clear();
-      setState(() {
-        _rating = 0;
-      });
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('리뷰가 제출되었습니다.')),
+        );
+        _reviewController.clear();
+        setState(() {
+          _rating = 0;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('리뷰 제출을 실패했습니다. 오류코드: ${response.statusCode}')),
+        );
+      }
     }
   }
 

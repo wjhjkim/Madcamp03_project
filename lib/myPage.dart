@@ -4,6 +4,8 @@ import 'HeartPage.dart';
 import 'AllergyPage.dart';
 import 'ReviewPage.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class my_page extends StatefulWidget {
   const my_page({super.key});
 
@@ -13,7 +15,18 @@ class my_page extends StatefulWidget {
 
 class _my_page extends State<my_page>
     with TickerProviderStateMixin {
-  final String nickname = "UserNickname"; // 닉네임
+  String nickname = "UserNickname"; // 닉네임
+
+  Future<void> _loadUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    nickname = prefs.getString('userID') ?? '';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // _loadUserID();
+  }
 
   @override
   Widget build(BuildContext context) {
