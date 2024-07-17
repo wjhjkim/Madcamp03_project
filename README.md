@@ -66,7 +66,7 @@ https://github.com/user-attachments/assets/9fa6a330-24ee-4a06-ab51-cc3601b683af
 - 음식의 리뷰를 확인할 수 있습니다.
 - 사용자가 설정한 알레르기의 번호가 빨간색으로 표시됩니다.
 
-[]()
+https://github.com/user-attachments/assets/1a9799cf-4b1a-4439-8860-2533e138f16c
 
 ### 5. 마이 페이지
 
