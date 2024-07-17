@@ -65,33 +65,209 @@ class _WriteReviewState extends State<write_review>
     final response = await http
         .get(Uri.parse('${dotenv.env['SERVER_URL']}/menu/getmenu?date=$Date'));
 
+    // 가게 이름, 사진(있으면), 별점, 주 메뉴, 국, 밥, 반찬1, 반찬2, 반찬3 순...
+    // Should Repair
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
+      print(jsonResponse);
       setState(() {
         breakfast = [];
         lunch = [];
         dinner = [];
 
-        for (var item in jsonResponse) {
-          List<String> subList = [];
-          if (item["place"] == "fclt") {
-            subList.add("카이마루");
-          } else if (item["place"] == "emp") {
-            subList.add("교수회관");
-          } else if (item["place"] == "west1") {
-            subList.add("서측식당");
+        for (var i = 0; i < jsonResponse.length; i++) {
+          if (jsonResponse[i]["time"] == 1) {
+            if (breakfast.isNotEmpty) {
+              bool a = false;
+              for (var j in breakfast) {
+                if (j[0] == "카이마루" && jsonResponse[i]["place"] == "fclt") {
+                  j.add(jsonResponse[i]["foodName"]);
+                  a = true;
+                  break;
+                } else if (j[0] == "교수회관" &&
+                    jsonResponse[i]["place"] == "emp") {
+                  j.add(jsonResponse[i]["foodName"]);
+                  a = true;
+                  break;
+                } else if (j[0] == "서측식당" &&
+                    jsonResponse[i]["place"] == "west1") {
+                  j.add(jsonResponse[i]["foodName"]);
+                  a = true;
+                  break;
+                } else if (j[0] == jsonResponse[i]["place"]) {
+                  j.add(jsonResponse[i]["foodName"]);
+                  a = true;
+                  break;
+                }
+              }
+              if (!a) {
+                List<String> subList = [];
+                if (jsonResponse[i]["place"] == "fclt") {
+                  subList.add("카이마루");
+                } else if (jsonResponse[i]["place"] == "emp") {
+                  subList.add("교수회관");
+                } else if (jsonResponse[i]["place"] == "west1") {
+                  subList.add("서측식당");
+                } else {
+                  subList.add(jsonResponse[i]["place"]);
+                }
+                // 이미지
+                // subList.add('assets/sample_image.jpg');
+                subList.add(jsonResponse[i]["image"] ??
+                    "https://via.placeholder.com/400");
+                // 별점
+                // subList.add("4.0");
+                subList.add(jsonResponse[i]["starRating"].toString());
+                subList.add(jsonResponse[i]["foodName"]);
+                breakfast.add(subList);
+              }
+            } else {
+              List<String> subList = [];
+              if (jsonResponse[i]["place"] == "fclt") {
+                subList.add("카이마루");
+              } else if (jsonResponse[i]["place"] == "emp") {
+                subList.add("교수회관");
+              } else if (jsonResponse[i]["place"] == "west1") {
+                subList.add("서측식당");
+              } else {
+                subList.add(jsonResponse[i]["place"]);
+              }
+              // 이미지
+              // subList.add('assets/sample_image.jpg');
+              subList.add(jsonResponse[i]["image"] ??
+                  "https://via.placeholder.com/400");
+              // 별점
+              // subList.add("4.0");
+              subList.add(jsonResponse[i]["starRating"].toString());
+              subList.add(jsonResponse[i]["foodName"]);
+              breakfast.add(subList);
+            }
+          } else if (jsonResponse[i]["time"] == 2) if (lunch.isNotEmpty) {
+            bool a = false;
+            for (var j in lunch) {
+              if (j[0] == "카이마루" && jsonResponse[i]["place"] == "fclt") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == "교수회관" && jsonResponse[i]["place"] == "emp") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == "서측식당" &&
+                  jsonResponse[i]["place"] == "west1") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == jsonResponse[i]["place"]) {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              }
+            }
+            if (!a) {
+              List<String> subList = [];
+              if (jsonResponse[i]["place"] == "fclt") {
+                subList.add("카이마루");
+              } else if (jsonResponse[i]["place"] == "emp") {
+                subList.add("교수회관");
+              } else if (jsonResponse[i]["place"] == "west1") {
+                subList.add("서측식당");
+              } else {
+                subList.add(jsonResponse[i]["place"]);
+              }
+              // 이미지
+              // subList.add('assets/sample_image.jpg');
+              subList.add(jsonResponse[i]["image"] ??
+                  "https://via.placeholder.com/400");
+              // 별점
+              // subList.add("4.0");
+              subList.add(jsonResponse[i]["starRating"].toString());
+              subList.add(jsonResponse[i]["foodName"]);
+              lunch.add(subList);
+            }
           } else {
-            subList.add(item["place"]);
-          }
-          subList.add('assets/sample_image.jpg'); // 이미지
-          subList.add("4.0"); // 별점
-          subList.add(item["foodName"]);
-
-          if (item["time"] == 1) {
-            breakfast.add(subList);
-          } else if (item["time"] == 2) {
+            List<String> subList = [];
+            if (jsonResponse[i]["place"] == "fclt") {
+              subList.add("카이마루");
+            } else if (jsonResponse[i]["place"] == "emp") {
+              subList.add("교수회관");
+            } else if (jsonResponse[i]["place"] == "west1") {
+              subList.add("서측식당");
+            } else {
+              subList.add(jsonResponse[i]["place"]);
+            }
+            // 이미지
+            // subList.add('assets/sample_image.jpg');
+            subList.add(
+                jsonResponse[i]["image"] ?? "https://via.placeholder.com/400");
+            // 별점
+            // subList.add("4.0");
+            subList.add(jsonResponse[i]["starRating"].toString());
+            subList.add(jsonResponse[i]["foodName"]);
             lunch.add(subList);
+          }
+          else if (dinner.isNotEmpty) {
+            bool a = false;
+            for (var j in dinner) {
+              if (j[0] == "카이마루" && jsonResponse[i]["place"] == "fclt") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == "교수회관" && jsonResponse[i]["place"] == "emp") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == "서측식당" &&
+                  jsonResponse[i]["place"] == "west1") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == jsonResponse[i]["place"]) {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              }
+            }
+            if (!a) {
+              List<String> subList = [];
+              if (jsonResponse[i]["place"] == "fclt") {
+                subList.add("카이마루");
+              } else if (jsonResponse[i]["place"] == "emp") {
+                subList.add("교수회관");
+              } else if (jsonResponse[i]["place"] == "west1") {
+                subList.add("서측식당");
+              } else {
+                subList.add(jsonResponse[i]["place"]);
+              }
+              // 이미지
+              // subList.add('assets/sample_image.jpg');
+              subList.add(jsonResponse[i]["image"] ??
+                  "https://via.placeholder.com/400");
+              // 별점
+              // subList.add("4.0");
+              subList.add(jsonResponse[i]["starRating"].toString());
+              subList.add(jsonResponse[i]["foodName"]);
+              dinner.add(subList);
+            }
           } else {
+            List<String> subList = [];
+            if (jsonResponse[i]["place"] == "fclt") {
+              subList.add("카이마루");
+            } else if (jsonResponse[i]["place"] == "emp") {
+              subList.add("교수회관");
+            } else if (jsonResponse[i]["place"] == "west1") {
+              subList.add("서측식당");
+            } else {
+              subList.add(jsonResponse[i]["place"]);
+            }
+            // 이미지
+            // subList.add('assets/sample_image.jpg');
+            subList.add(
+                jsonResponse[i]["image"] ?? "https://via.placeholder.com/400");
+            // 별점
+            // subList.add("4.0");
+            subList.add(jsonResponse[i]["starRating"].toString());
+            subList.add(jsonResponse[i]["foodName"]);
             dinner.add(subList);
           }
         }
@@ -102,44 +278,44 @@ class _WriteReviewState extends State<write_review>
         breakfast = [
           [
             '카이마루',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 1',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 1',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '교수회관',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 2',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 2',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '서측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 3',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 3',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '동측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 4',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 4',
             '반찬 1',
             '반찬 2',
             '반찬 3'
@@ -148,55 +324,55 @@ class _WriteReviewState extends State<write_review>
         lunch = [
           [
             '동측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 1',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 12',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '카이마루',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 2',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 13',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '카이마루',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 3',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 14',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '교수회관',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 4',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 15',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '서측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 5',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 17',
             '반찬 1',
             '반찬 2',
             '반찬 3'
@@ -205,44 +381,44 @@ class _WriteReviewState extends State<write_review>
         dinner = [
           [
             '서측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 1',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 21',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '카이마루',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 2',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 22',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '교수회관',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 3',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 23',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '동측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 4',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 24',
             '반찬 1',
             '반찬 2',
             '반찬 3'
@@ -250,7 +426,8 @@ class _WriteReviewState extends State<write_review>
         ];
         updateMenu();
       });
-      throw Exception('Failed to load posts: ${response.statusCode} ${response.reasonPhrase}');
+      throw Exception(
+          'Failed to load posts: ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 

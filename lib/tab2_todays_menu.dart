@@ -36,44 +36,44 @@ class _todays_menuState extends State<tab2_todays_menu>
   List<List<String>> breakfast = [
     [
       '카이마루',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 1',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 1',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '교수회관',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 2',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 2',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '서측식당',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 3',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 3',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '동측식당',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 4',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 4',
       '반찬 1',
       '반찬 2',
       '반찬 3'
@@ -82,55 +82,55 @@ class _todays_menuState extends State<tab2_todays_menu>
   List<List<String>> lunch = [
     [
       '동측식당',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 1',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 12',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '카이마루',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 2',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 13',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '카이마루',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 3',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 14',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '교수회관',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 4',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 15',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '서측식당',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 5',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 17',
       '반찬 1',
       '반찬 2',
       '반찬 3'
@@ -139,44 +139,44 @@ class _todays_menuState extends State<tab2_todays_menu>
   List<List<String>> dinner = [
     [
       '서측식당',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 1',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 21',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '카이마루',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 2',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 22',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '교수회관',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 3',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 23',
       '반찬 1',
       '반찬 2',
       '반찬 3'
     ],
     [
       '동측식당',
-      'assets/sample_image.jpg',
+      "https://via.placeholder.com/400",
       '4.0',
-      '주 메뉴 4',
-      '국 1',
       '밥',
+      '국 1',
+      '주 메뉴 24',
       '반찬 1',
       '반찬 2',
       '반찬 3'
@@ -311,9 +311,12 @@ class _todays_menuState extends State<tab2_todays_menu>
                   subList.add(jsonResponse[i]["place"]);
                 }
                 // 이미지
-                subList.add('assets/sample_image.jpg');
+                // subList.add('assets/sample_image.jpg');
+                subList.add(jsonResponse[i]["image"] ??
+                    "https://via.placeholder.com/400");
                 // 별점
-                subList.add("4.0");
+                // subList.add("4.0");
+                subList.add(jsonResponse[i]["starRating"].toString());
                 subList.add(jsonResponse[i]["foodName"]);
                 breakfast.add(subList);
               }
@@ -329,9 +332,12 @@ class _todays_menuState extends State<tab2_todays_menu>
                 subList.add(jsonResponse[i]["place"]);
               }
               // 이미지
-              subList.add('assets/sample_image.jpg');
+              // subList.add('assets/sample_image.jpg');
+              subList.add(jsonResponse[i]["image"] ??
+                  "https://via.placeholder.com/400");
               // 별점
-              subList.add("4.0");
+              // subList.add("4.0");
+              subList.add(jsonResponse[i]["starRating"].toString());
               subList.add(jsonResponse[i]["foodName"]);
               breakfast.add(subList);
             }
@@ -369,9 +375,12 @@ class _todays_menuState extends State<tab2_todays_menu>
                 subList.add(jsonResponse[i]["place"]);
               }
               // 이미지
-              subList.add('assets/sample_image.jpg');
+              // subList.add('assets/sample_image.jpg');
+              subList.add(jsonResponse[i]["image"] ??
+                  "https://via.placeholder.com/400");
               // 별점
-              subList.add("4.0");
+              // subList.add("4.0");
+              subList.add(jsonResponse[i]["starRating"].toString());
               subList.add(jsonResponse[i]["foodName"]);
               lunch.add(subList);
             }
@@ -387,9 +396,12 @@ class _todays_menuState extends State<tab2_todays_menu>
               subList.add(jsonResponse[i]["place"]);
             }
             // 이미지
-            subList.add('assets/sample_image.jpg');
+            // subList.add('assets/sample_image.jpg');
+            subList.add(
+                jsonResponse[i]["image"] ?? "https://via.placeholder.com/400");
             // 별점
-            subList.add("4.0");
+            // subList.add("4.0");
+            subList.add(jsonResponse[i]["starRating"].toString());
             subList.add(jsonResponse[i]["foodName"]);
             lunch.add(subList);
           }
@@ -427,9 +439,12 @@ class _todays_menuState extends State<tab2_todays_menu>
                 subList.add(jsonResponse[i]["place"]);
               }
               // 이미지
-              subList.add('assets/sample_image.jpg');
+              // subList.add('assets/sample_image.jpg');
+              subList.add(jsonResponse[i]["image"] ??
+                  "https://via.placeholder.com/400");
               // 별점
-              subList.add("4.0");
+              // subList.add("4.0");
+              subList.add(jsonResponse[i]["starRating"].toString());
               subList.add(jsonResponse[i]["foodName"]);
               dinner.add(subList);
             }
@@ -445,9 +460,12 @@ class _todays_menuState extends State<tab2_todays_menu>
               subList.add(jsonResponse[i]["place"]);
             }
             // 이미지
-            subList.add('assets/sample_image.jpg');
+            // subList.add('assets/sample_image.jpg');
+            subList.add(
+                jsonResponse[i]["image"] ?? "https://via.placeholder.com/400");
             // 별점
-            subList.add("4.0");
+            // subList.add("4.0");
+            subList.add(jsonResponse[i]["starRating"].toString());
             subList.add(jsonResponse[i]["foodName"]);
             dinner.add(subList);
           }
@@ -462,44 +480,44 @@ class _todays_menuState extends State<tab2_todays_menu>
         breakfast = [
           [
             '카이마루',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 1',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 1',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '교수회관',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 2',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 2',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '서측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 3',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 3',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '동측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 4',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 4',
             '반찬 1',
             '반찬 2',
             '반찬 3'
@@ -508,55 +526,55 @@ class _todays_menuState extends State<tab2_todays_menu>
         lunch = [
           [
             '동측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 1',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 12',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '카이마루',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 2',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 13',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '카이마루',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 3',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 14',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '교수회관',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 4',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 15',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '서측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 5',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 17',
             '반찬 1',
             '반찬 2',
             '반찬 3'
@@ -565,44 +583,44 @@ class _todays_menuState extends State<tab2_todays_menu>
         dinner = [
           [
             '서측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 1',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 21',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '카이마루',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 2',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 22',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '교수회관',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 3',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 23',
             '반찬 1',
             '반찬 2',
             '반찬 3'
           ],
           [
             '동측식당',
-            'assets/sample_image.jpg',
+            "https://via.placeholder.com/400",
             '4.0',
-            '주 메뉴 4',
-            '국 1',
             '밥',
+            '국 1',
+            '주 메뉴 24',
             '반찬 1',
             '반찬 2',
             '반찬 3'
@@ -610,7 +628,8 @@ class _todays_menuState extends State<tab2_todays_menu>
         ];
         updateMenu();
       });
-      throw Exception('Failed to load posts: ${response.statusCode} ${response.reasonPhrase}');
+      throw Exception(
+          'Failed to load posts: ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -619,7 +638,7 @@ class _todays_menuState extends State<tab2_todays_menu>
     try {
       // 각 메뉴 항목에 대해 알러지 개수를 계산하고 이를 포함한 새로운 리스트를 생성합니다.
       List<Map<String, dynamic>> menuWithAllergyCount =
-      await Future.wait(menu.map((menu) async {
+          await Future.wait(menu.map((menu) async {
         int allergyCount = await getAllergyCount(menu.sublist(3));
         return {'menu': menu, 'allergyCount': allergyCount};
       }).toList());
@@ -634,7 +653,7 @@ class _todays_menuState extends State<tab2_todays_menu>
           .toList();
 
       List<Map<String, dynamic>> menuWithFavorite =
-      await Future.wait(menu.map((menu) async {
+          await Future.wait(menu.map((menu) async {
         int favoriteCount = await getFavoriteCount(menu.sublist(3));
         return {'menu': menu, 'FavoriteCount': favoriteCount};
       }).toList());
@@ -725,7 +744,7 @@ class _todays_menuState extends State<tab2_todays_menu>
     String? allergiesJson = prefs.getString('allergies');
     if (allergiesJson != null) {
       final Map<String, bool> loadedAllergies =
-      Map<String, bool>.from(json.decode(allergiesJson));
+          Map<String, bool>.from(json.decode(allergiesJson));
       Future.delayed(Duration.zero, () {
         setState(() {
           _allergies = loadedAllergies;
@@ -907,85 +926,90 @@ class _todays_menuState extends State<tab2_todays_menu>
                               );
                             },
                             child: Hero(
-                            tag: 'menucard',
-                            child: Card(
-                              color: Colors.white,
-                              elevation: 4,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      child: Image.asset(
-                                        menu[index][1],
-                                        fit: BoxFit.cover,
-                                        height: 200,
-                                        width: double.infinity,
-                                      ),
-                                    ),
-                                    SizedBox(height: 16),
-                                    Row(
+                                tag: 'menucard',
+                                child: Card(
+                                  color: Colors.white,
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                          child: Image.network(
+                                            menu[index][1],
+                                            fit: BoxFit.cover,
+                                            height: 200,
+                                            width: double.infinity,
+                                          ),
+                                        ),
+                                        SizedBox(height: 16),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${menu[index][5]}',
+                                              style: TextStyle(
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(Icons.star,
+                                                    color: Colors.amber),
+                                                Text(
+                                                  '${menu[index][2]}',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(height: 8),
                                         Text(
-                                          '${menu[index][5]}',
+                                          '장소: ' + '${menu[index][0]}',
                                           style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
                                             color: Colors.black,
                                           ),
                                         ),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.star,
-                                                color: Colors.amber),
-                                            Text(
-                                              '${menu[index][2]}',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black,
-                                              ),
-                                            )
-                                          ],
-                                        )
+                                        SizedBox(height: 8),
+                                        ...menu[index]
+                                            .sublist(3, 8)
+                                            .map((item) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 4.0),
+                                                  child: Text(
+                                                    '   - ' + item,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.grey[700],
+                                                    ),
+                                                  ),
+                                                ))
+                                            .toList(),
                                       ],
                                     ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      '장소: ' + '${menu[index][0]}',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    ...menu[index]
-                                        .sublist(3, 8)
-                                        .map((item) => Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 4.0),
-                                      child: Text(
-                                        '   - ' + item,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey[700],
-                                        ),
-                                      ),
-                                    ))
-                                        .toList(),
-                                  ],
-                                ),
-                              ),
-                            )));
+                                  ),
+                                )));
                       },
                     ),
                   ),
@@ -995,7 +1019,7 @@ class _todays_menuState extends State<tab2_todays_menu>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children:
-                    List.generate(_pageCount - 2, _buildPageIndicator),
+                        List.generate(_pageCount - 2, _buildPageIndicator),
                   ),
                 ],
               ),
@@ -1007,144 +1031,144 @@ class _todays_menuState extends State<tab2_todays_menu>
                 children: [
                   Expanded(
                       child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => menu_show_one(
-                                  date: _selectedDate,
-                                  breakfast: breakfast,
-                                  lunch: lunch,
-                                  dinner: dinner),
-                            ),
-                          );
-                        },
-                        child: Card(
-                          color: Colors.white,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                SizedBox(height: 8),
-                                Container(
-                                  width: 36,
-                                  height: 36,
-                                  child: Image.asset(
-                                    "assets/free-icon-font-list.png",
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                SizedBox(height: 16),
-                                Text(
-                                  "모아보기",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => menu_show_one(
+                              date: _selectedDate,
+                              breakfast: breakfast,
+                              lunch: lunch,
+                              dinner: dinner),
                         ),
-                      )),
+                      );
+                    },
+                    child: Card(
+                      color: Colors.white,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 8),
+                            Container(
+                              width: 36,
+                              height: 36,
+                              child: Image.asset(
+                                "assets/free-icon-font-list.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              "모아보기",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )),
                   SizedBox(
                     width: 20,
                   ),
                   Expanded(
                       child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => monthly_calendar(
-                                  place: menu[current_index][0]),
-                            ),
-                          );
-                        },
-                        child: Card(
-                          color: Colors.white,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                SizedBox(height: 8),
-                                Container(
-                                  width: 36,
-                                  height: 36,
-                                  child: Image.asset(
-                                    "assets/free-icon-font-calendar.png",
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                SizedBox(height: 16),
-                                Text(
-                                  "월별 식단",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              monthly_calendar(place: menu[current_index][0]),
                         ),
-                      )),
+                      );
+                    },
+                    child: Card(
+                      color: Colors.white,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 8),
+                            Container(
+                              width: 36,
+                              height: 36,
+                              child: Image.asset(
+                                "assets/free-icon-font-calendar.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              "월별 식단",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )),
                   SizedBox(
                     width: 20,
                   ),
                   Expanded(
                       child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => write_review(
-                                  date: _selectedDate,
-                                  time: selectedMeal,
-                                  place: menu[current_index][0]),
-                            ),
-                          );
-                        },
-                        child: Card(
-                          color: Colors.white,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              children: [
-                                SizedBox(height: 8),
-                                Container(
-                                  width: 36,
-                                  height: 36,
-                                  child: Image.asset(
-                                    "assets/free-icon-font-edit.png",
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                SizedBox(height: 16),
-                                Text(
-                                  "리뷰 작성",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => write_review(
+                              date: _selectedDate,
+                              time: selectedMeal,
+                              place: menu[current_index][0]),
                         ),
-                      )),
+                      );
+                    },
+                    child: Card(
+                      color: Colors.white,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 8),
+                            Container(
+                              width: 36,
+                              height: 36,
+                              child: Image.asset(
+                                "assets/free-icon-font-edit.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              "리뷰 작성",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )),
                 ],
               ),
             ),

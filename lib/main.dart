@@ -136,7 +136,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _textAnimation = Tween<Offset>(
       begin: Offset(0, 0),
-      end: Offset(0, -3),
+      end: Offset(0, -4),
     ).animate(
       CurvedAnimation(
         parent: _textController!,
@@ -180,20 +180,20 @@ class _SplashScreenState extends State<SplashScreen>
               position: _textAnimation!,
               child: _startTextAnimation
                   ? TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 60, end: 50),
+                tween: Tween<double>(begin: 40, end: 34),
                 duration: Duration(milliseconds: 500),
                 builder: (context, value, child) {
                   return Text(
-                    '환영합니다',
+                    '넙죽아 죽이 짜다',
                     style: TextStyle(
                         fontSize: value, fontWeight: FontWeight.bold),
                   );
                 },
               )
                   : Text(
-                '환영합니다',
+                '넙죽아 죽이 짜다',
                 style:
-                TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+                TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
             ),
           ),

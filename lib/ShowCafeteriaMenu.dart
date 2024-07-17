@@ -92,7 +92,7 @@ class _MyCustomScrollView extends State<MyCustomScrollView> {
           pinned: true,
           expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
-            background: Image.asset(
+            background: Image.network(
               menu[1],
               fit: BoxFit.cover,
             ),
