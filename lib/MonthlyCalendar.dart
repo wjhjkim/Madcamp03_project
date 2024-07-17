@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:intl/intl.dart';
 
 class monthly_calendar extends StatefulWidget {
@@ -12,178 +10,19 @@ class monthly_calendar extends StatefulWidget {
   final String place;
 
   @override
-  _monthly_calendar createState() => _monthly_calendar();
+  _MonthlyCalendarState createState() => _MonthlyCalendarState();
 }
 
-class _monthly_calendar extends State<monthly_calendar>
+class _MonthlyCalendarState extends State<monthly_calendar>
     with TickerProviderStateMixin {
   DateTime selectedDate = DateTime.now();
   int? selectedDay;
   final List<String> _locations = ['카이마루', '동측식당', '서측식당', '교수회관'];
   String _selectedLocation = '카이마루';
 
-  List<List<String>> breakfast = [
-    [
-      '카이마루',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 1',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '교수회관',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 2',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '서측식당',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 3',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '동측식당',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 4',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ]
-  ];
-  List<List<String>> lunch = [
-    [
-      '동측식당',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 1',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '카이마루',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 2',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '카이마루',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 3',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '교수회관',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 4',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '서측식당',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 5',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ]
-  ];
-  List<List<String>> dinner = [
-    [
-      '서측식당',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 1',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '카이마루',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 2',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '교수회관',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 3',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ],
-    [
-      '동측식당',
-      'assets/sample_image.jpg',
-      // '가격',
-      '4.0',
-      '주 메뉴 4',
-      '국 1',
-      '밥',
-      '반찬 1',
-      '반찬 2',
-      '반찬 3'
-    ]
-  ];
+  List<List<String>> breakfast = [];
+  List<List<String>> lunch = [];
+  List<List<String>> dinner = [];
 
   @override
   void initState() {
@@ -200,354 +39,56 @@ class _monthly_calendar extends State<monthly_calendar>
     // Should Repair
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
-      print(jsonResponse);
       setState(() {
         breakfast = [];
         lunch = [];
         dinner = [];
 
-        for (var i = 0; i < jsonResponse.length; i++) {
-          if (jsonResponse[i]["time"] == 1) {
-            if (breakfast.isNotEmpty) {
-              bool a = false;
-              for (var j in breakfast) {
-                if (j[0] == "카이마루" && jsonResponse[i]["place"] == "fclt") {
-                  j.add(jsonResponse[i]["foodName"]);
-                  a = true;
-                  break;
-                } else if (j[0] == "교수회관" &&
-                    jsonResponse[i]["place"] == "emp") {
-                  j.add(jsonResponse[i]["foodName"]);
-                  a = true;
-                  break;
-                } else if (j[0] == "서측식당" &&
-                    jsonResponse[i]["place"] == "west1") {
-                  j.add(jsonResponse[i]["foodName"]);
-                  a = true;
-                  break;
-                } else if (j[0] == jsonResponse[i]["place"]) {
-                  j.add(jsonResponse[i]["foodName"]);
-                  a = true;
-                  break;
-                }
-              }
-              if (!a) {
-                List<String> subList = [];
-                if (jsonResponse[i]["place"] == "fclt") {
-                  subList.add("카이마루");
-                } else if (jsonResponse[i]["place"] == "emp") {
-                  subList.add("교수회관");
-                } else if (jsonResponse[i]["place"] == "west1") {
-                  subList.add("서측식당");
-                } else {
-                  subList.add(jsonResponse[i]["place"]);
-                }
-                // 이미지
-                subList.add('assets/sample_image.jpg');
-                // 별점
-                subList.add("4.0");
-                subList.add(jsonResponse[i]["foodName"]);
-                breakfast.add(subList);
-              }
-            } else {
-              List<String> subList = [];
-              if (jsonResponse[i]["place"] == "fclt") {
-                subList.add("카이마루");
-              } else if (jsonResponse[i]["place"] == "emp") {
-                subList.add("교수회관");
-              } else if (jsonResponse[i]["place"] == "west1") {
-                subList.add("서측식당");
-              } else {
-                subList.add(jsonResponse[i]["place"]);
-              }
-              // 이미지
-              subList.add('assets/sample_image.jpg');
-              // 별점
-              subList.add("4.0");
-              subList.add(jsonResponse[i]["foodName"]);
-              breakfast.add(subList);
-            }
-          } else if (jsonResponse[i]["time"] == 2) if (lunch.isNotEmpty) {
-            bool a = false;
-            for (var j in lunch) {
-              if (j[0] == "카이마루" && jsonResponse[i]["place"] == "fclt") {
-                j.add(jsonResponse[i]["foodName"]);
-                a = true;
-                break;
-              } else if (j[0] == "교수회관" && jsonResponse[i]["place"] == "emp") {
-                j.add(jsonResponse[i]["foodName"]);
-                a = true;
-                break;
-              } else if (j[0] == "서측식당" &&
-                  jsonResponse[i]["place"] == "west1") {
-                j.add(jsonResponse[i]["foodName"]);
-                a = true;
-                break;
-              } else if (j[0] == jsonResponse[i]["place"]) {
-                j.add(jsonResponse[i]["foodName"]);
-                a = true;
-                break;
-              }
-            }
-            if (!a) {
-              List<String> subList = [];
-              if (jsonResponse[i]["place"] == "fclt") {
-                subList.add("카이마루");
-              } else if (jsonResponse[i]["place"] == "emp") {
-                subList.add("교수회관");
-              } else if (jsonResponse[i]["place"] == "west1") {
-                subList.add("서측식당");
-              } else {
-                subList.add(jsonResponse[i]["place"]);
-              }
-              // 이미지
-              subList.add('assets/sample_image.jpg');
-              // 별점
-              subList.add("4.0");
-              subList.add(jsonResponse[i]["foodName"]);
-              lunch.add(subList);
-            }
+        for (var item in jsonResponse) {
+          List<String> subList = [];
+          if (item["place"] == "fclt") {
+            subList.add("카이마루");
+          } else if (item["place"] == "emp") {
+            subList.add("교수회관");
+          } else if (item["place"] == "west1") {
+            subList.add("서측식당");
           } else {
-            List<String> subList = [];
-            if (jsonResponse[i]["place"] == "fclt") {
-              subList.add("카이마루");
-            } else if (jsonResponse[i]["place"] == "emp") {
-              subList.add("교수회관");
-            } else if (jsonResponse[i]["place"] == "west1") {
-              subList.add("서측식당");
-            } else {
-              subList.add(jsonResponse[i]["place"]);
-            }
-            // 이미지
-            subList.add('assets/sample_image.jpg');
-            // 별점
-            subList.add("4.0");
-            subList.add(jsonResponse[i]["foodName"]);
-            lunch.add(subList);
+            subList.add(item["place"]);
           }
-          else if (dinner.isNotEmpty) {
-            bool a = false;
-            for (var j in dinner) {
-              if (j[0] == "카이마루" && jsonResponse[i]["place"] == "fclt") {
-                j.add(jsonResponse[i]["foodName"]);
-                a = true;
-                break;
-              } else if (j[0] == "교수회관" && jsonResponse[i]["place"] == "emp") {
-                j.add(jsonResponse[i]["foodName"]);
-                a = true;
-                break;
-              } else if (j[0] == "서측식당" &&
-                  jsonResponse[i]["place"] == "west1") {
-                j.add(jsonResponse[i]["foodName"]);
-                a = true;
-                break;
-              } else if (j[0] == jsonResponse[i]["place"]) {
-                j.add(jsonResponse[i]["foodName"]);
-                a = true;
-                break;
-              }
-            }
-            if (!a) {
-              List<String> subList = [];
-              if (jsonResponse[i]["place"] == "fclt") {
-                subList.add("카이마루");
-              } else if (jsonResponse[i]["place"] == "emp") {
-                subList.add("교수회관");
-              } else if (jsonResponse[i]["place"] == "west1") {
-                subList.add("서측식당");
-              } else {
-                subList.add(jsonResponse[i]["place"]);
-              }
-              // 이미지
-              subList.add('assets/sample_image.jpg');
-              // 별점
-              subList.add("4.0");
-              subList.add(jsonResponse[i]["foodName"]);
-              dinner.add(subList);
-            }
+          subList.add('assets/sample_image.jpg'); // 이미지
+          subList.add("4.0"); // 별점
+          subList.add(item["foodName"]);
+
+          if (item["time"] == 1) {
+            breakfast.add(subList);
+          } else if (item["time"] == 2) {
+            lunch.add(subList);
           } else {
-            List<String> subList = [];
-            if (jsonResponse[i]["place"] == "fclt") {
-              subList.add("카이마루");
-            } else if (jsonResponse[i]["place"] == "emp") {
-              subList.add("교수회관");
-            } else if (jsonResponse[i]["place"] == "west1") {
-              subList.add("서측식당");
-            } else {
-              subList.add(jsonResponse[i]["place"]);
-            }
-            // 이미지
-            subList.add('assets/sample_image.jpg');
-            // 별점
-            subList.add("4.0");
-            subList.add(jsonResponse[i]["foodName"]);
             dinner.add(subList);
           }
         }
       });
     } else {
       setState(() {
+        // 예제 데이터로 초기화
         breakfast = [
-          [
-            '카이마루',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 1',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '교수회관',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 2',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '서측식당',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 3',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '동측식당',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 4',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ]
+          ['카이마루', 'assets/sample_image.jpg', '4.0', '주 메뉴 1', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['교수회관', 'assets/sample_image.jpg', '4.0', '주 메뉴 2', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['서측식당', 'assets/sample_image.jpg', '4.0', '주 메뉴 3', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['동측식당', 'assets/sample_image.jpg', '4.0', '주 메뉴 4', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3']
         ];
         lunch = [
-          [
-            '동측식당',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 1',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '카이마루',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 2',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '카이마루',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 3',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '교수회관',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 4',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '서측식당',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 5',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ]
+          ['동측식당', 'assets/sample_image.jpg', '4.0', '주 메뉴 1', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['카이마루', 'assets/sample_image.jpg', '4.0', '주 메뉴 2', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['카이마루', 'assets/sample_image.jpg', '4.0', '주 메뉴 3', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['교수회관', 'assets/sample_image.jpg', '4.0', '주 메뉴 4', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['서측식당', 'assets/sample_image.jpg', '4.0', '주 메뉴 5', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3']
         ];
         dinner = [
-          [
-            '서측식당',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 1',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '카이마루',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 2',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '교수회관',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 3',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ],
-          [
-            '동측식당',
-            'assets/sample_image.jpg',
-            // '가격',
-            '4.0',
-            '주 메뉴 4',
-            '국 1',
-            '밥',
-            '반찬 1',
-            '반찬 2',
-            '반찬 3'
-          ]
+          ['서측식당', 'assets/sample_image.jpg', '4.0', '주 메뉴 1', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['카이마루', 'assets/sample_image.jpg', '4.0', '주 메뉴 2', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['교수회관', 'assets/sample_image.jpg', '4.0', '주 메뉴 3', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3'],
+          ['동측식당', 'assets/sample_image.jpg', '4.0', '주 메뉴 4', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3']
         ];
       });
       throw Exception('Failed to load posts: ${response.statusCode}');
@@ -559,7 +100,10 @@ class _monthly_calendar extends State<monthly_calendar>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('월별 식단표'),
+        title: Text('월별 식단표', style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Column(
         children: [
@@ -569,11 +113,10 @@ class _monthly_calendar extends State<monthly_calendar>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
                   onPressed: () {
                     setState(() {
-                      selectedDate =
-                          DateTime(selectedDate.year, selectedDate.month - 1);
+                      selectedDate = DateTime(selectedDate.year, selectedDate.month - 1);
                       selectedDay = null; // 새로운 달로 변경 시 선택된 날을 초기화
                     });
                   },
@@ -582,8 +125,7 @@ class _monthly_calendar extends State<monthly_calendar>
                   children: [
                     Text(
                       '${selectedDate.year}년 ${selectedDate.month}월 ',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     DropdownButton<String>(
                       value: _selectedLocation,
@@ -593,8 +135,7 @@ class _monthly_calendar extends State<monthly_calendar>
                         });
                       },
                       style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
-                      items: _locations
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: _locations.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -604,11 +145,10 @@ class _monthly_calendar extends State<monthly_calendar>
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.arrow_forward),
+                  icon: Icon(Icons.arrow_forward, color: Colors.black),
                   onPressed: () {
                     setState(() {
-                      selectedDate =
-                          DateTime(selectedDate.year, selectedDate.month + 1);
+                      selectedDate = DateTime(selectedDate.year, selectedDate.month + 1);
                       selectedDay = null; // 새로운 달로 변경 시 선택된 날을 초기화
                     });
                   },
@@ -621,7 +161,7 @@ class _monthly_calendar extends State<monthly_calendar>
               child: Column(
                 children: [
                   Table(
-                    border: TableBorder.all(),
+                    border: TableBorder.all(color: Colors.grey),
                     children: _buildCalendar(selectedDate),
                   ),
                   if (selectedDay != null) _buildMealInfo(selectedDay!),
@@ -641,9 +181,9 @@ class _monthly_calendar extends State<monthly_calendar>
       TableRow(
         children: daysOfWeek
             .map((day) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(child: Text(day)),
-                ))
+          padding: const EdgeInsets.all(8.0),
+          child: Center(child: Text(day, style: TextStyle(fontWeight: FontWeight.bold))),
+        ))
             .toList(),
       ),
     );
@@ -676,8 +216,7 @@ class _monthly_calendar extends State<monthly_calendar>
               child: Text(
                 day.toString(),
                 style: TextStyle(
-                  fontWeight:
-                      selectedDay == day ? FontWeight.bold : FontWeight.normal,
+                  fontWeight: selectedDay == day ? FontWeight.bold : FontWeight.normal,
                   color: selectedDay == day ? Colors.blue : Colors.black,
                 ),
               ),
@@ -699,7 +238,6 @@ class _monthly_calendar extends State<monthly_calendar>
   }
 
   Widget _buildMealInfo(int day) {
-    // 실제 데이터로 대체할 수 있습니다.
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(

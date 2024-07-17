@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'menuDetailPage.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class reviewlistpage extends StatefulWidget {
@@ -30,13 +28,12 @@ class ReviewListPage extends State<reviewlistpage> {
 
   Future<void> _initialize() async {
     await _loadUserID();
-    _getUserReview();  // 여기에 실제 메뉴 이름을 입력하세요
+    _getUserReview(); // 여기에 실제 메뉴 이름을 입력하세요
   }
 
   void _getUserReview() async {
     final response = await http.post(
       Uri.parse('${dotenv.env['SERVER_URL']}/review/get/user'),
-      // 여기에 실제 서버 URL을 입력하세요
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -54,9 +51,7 @@ class ReviewListPage extends State<reviewlistpage> {
           a.add(i["content"]);
           a.add(i["foodName"]);
           String b = i["reviewDate"];
-          // DateTime b1 = i["reviewDate"];
           a.add(b);
-          // a.add(DateFormat('yyyy년 MM월 dd일').format(b1));
           a.add(i["starRating"].toString());
           reviews.add(a);
         }
@@ -78,8 +73,15 @@ class ReviewListPage extends State<reviewlistpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff5f7fa),
       appBar: AppBar(
-        title: Text('내 리뷰'),
+        title: Text(
+          '내 리뷰',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Color(0xfff5f7fa),
+        iconTheme: IconThemeData(color: Colors.black),
+        elevation: 0,
       ),
       body: ListView.builder(
         itemCount: reviews.length,
@@ -95,20 +97,34 @@ class ReviewListPage extends State<reviewlistpage> {
                 );
               },
               child: Card(
+                color: Colors.white,
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: ListTile(
-                    leading: SizedBox(
-                      width: 50,
-                      height: 30,
-                      child: Row(
-                        children: [
-                          Icon(Icons.star, color: Colors.amber),
-                          Text(' ${reviews[index][3]}')
-                        ],
-                      ),
+                  leading: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.star, color: Colors.amber),
+                        Text(
+                          ' ${reviews[index][3]}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                    title: Text(reviews[index][0]),
-                    subtitle: Text(reviews[index][1])),
+                  ),
+                  title: Text(
+                    reviews[index][0],
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(
+                    reviews[index][1],
+                    style: TextStyle(color: Colors.grey[600]),
+                  ),
+                ),
               ));
         },
       ),

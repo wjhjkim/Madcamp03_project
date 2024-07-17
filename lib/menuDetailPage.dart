@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
@@ -22,11 +20,7 @@ class _MenuDetailPage extends State<menuDetailPage> {
   String menuName = 'Spaghetti Carbonara';
   double menuRating = 0.0;
   bool isFavorite = false;
-  List<List<String>> reviews = [
-    // ['정말 맛있어요!', "user", "String", "5.0"],
-    // ['괜찮아요.', "user", "String", "3.0"],
-    // ['별로였어요.', "user", "String", "1.0"],
-  ];
+  List<List<String>> reviews = [];
   String userID = "sample";
   List<int> allergy = [];
 
@@ -90,7 +84,7 @@ class _MenuDetailPage extends State<menuDetailPage> {
 
   Future<void> _initialize(String menu_Name) async {
     await _loadUserID();
-    _getFoodInfo(menu_Name);  // 여기에 실제 메뉴 이름을 입력하세요
+    _getFoodInfo(menu_Name);
     _getFoodReview(menu_Name);
   }
 
@@ -102,10 +96,8 @@ class _MenuDetailPage extends State<menuDetailPage> {
   }
 
   void _getFoodInfo(String menu_name) async {
-    print(menu_name + " " + userID);
     final response = await http.post(
       Uri.parse('${dotenv.env['SERVER_URL']}/food'),
-      // 여기에 실제 서버 URL을 입력하세요
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -134,24 +126,22 @@ class _MenuDetailPage extends State<menuDetailPage> {
               .toList();
           allergy = intList;
         }
-          // allergy = jsonResponse["allergy"];
         menuRating = jsonResponse["starRating"].toDouble();
-        menuImageUrl = jsonResponse["image"] ?? "https://via.placeholder.com/400";
+        menuImageUrl =
+            jsonResponse["image"] ?? "https://via.placeholder.com/400";
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content:
-                Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+            Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
       );
-      print("오류발생: ${response.statusCode}");
     }
   }
 
   void _getFoodReview(String menu_Name) async {
     final response = await http.get(
       Uri.parse('${dotenv.env['SERVER_URL']}/review/get/food?foodName=$menu_Name'),
-      // 여기에 실제 서버 URL을 입력하세요
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -166,9 +156,7 @@ class _MenuDetailPage extends State<menuDetailPage> {
           a.add(i["content"]);
           a.add(i["userID"]);
           String b = i["reviewDate"];
-          // DateTime b1 = i["reviewDate"];
           a.add(b);
-          // a.add(DateFormat('yyyy년 MM월 dd일').format(b1));
           a.add(i["starRating"].toString());
           reviews.add(a);
         }
@@ -176,7 +164,8 @@ class _MenuDetailPage extends State<menuDetailPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('리뷰를 불러오는 것을 실패했습니다. 오류코드: ${response.statusCode}')),
+            content:
+            Text('리뷰를 불러오는 것을 실패했습니다. 오류코드: ${response.statusCode}')),
       );
     }
   }
@@ -184,7 +173,6 @@ class _MenuDetailPage extends State<menuDetailPage> {
   void _changeFavoriteMenus(String menu_name) async {
     final response = await http.post(
       Uri.parse('${dotenv.env['SERVER_URL']}/food/change/heart'),
-      // 여기에 실제 서버 URL을 입력하세요
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -202,7 +190,7 @@ class _MenuDetailPage extends State<menuDetailPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content:
-                Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+            Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
       );
     }
   }
@@ -218,8 +206,13 @@ class _MenuDetailPage extends State<menuDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff5f7fa),
       appBar: AppBar(
-        title: Text(menuName),
+        // title: Text(menuName),
+        backgroundColor: Color(0xfff5f7fa),
+        iconTheme: IconThemeData(color: Colors.black),
+        titleTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -280,12 +273,12 @@ class _MenuDetailPage extends State<menuDetailPage> {
                         ...allergy.map((item) {
                           if (_allergies[_allergies_map[item]] == true) {
                             return TextSpan(
-                              text: '$item ',
+                              text: '${_allergies_map[item]} ',
                               style: TextStyle(color: Colors.red),
                             );
                           } else {
                             return TextSpan(
-                              text: '$item ',
+                              text: '${_allergies_map[item]} ',
                               style: TextStyle(color: Colors.black),
                             );
                           }
@@ -300,10 +293,16 @@ class _MenuDetailPage extends State<menuDetailPage> {
                   ),
                   ...reviews.map((review) {
                     return Card(
-                      color: Colors.white,
                       margin: const EdgeInsets.symmetric(vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 4,
                       child: ListTile(
-                        title: Text(review[0]),
+                        title: Text(
+                          review[0],
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         subtitle: Row(
                           children: [
                             RatingBarIndicator(
@@ -316,9 +315,7 @@ class _MenuDetailPage extends State<menuDetailPage> {
                               itemSize: 20.0,
                               direction: Axis.horizontal,
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
+                            SizedBox(width: 20),
                             Text(review[1]),
                           ],
                         ),

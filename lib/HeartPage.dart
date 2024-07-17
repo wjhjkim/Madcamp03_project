@@ -37,7 +37,7 @@ class _FavoriteMenuPage extends State<Heartpage> {
 
   Future<void> _initialize() async {
     await _loadUserID();
-    _getFavoriteMenus();  // 여기에 실제 메뉴 이름을 입력하세요
+    _getFavoriteMenus(); // 여기에 실제 메뉴 이름을 입력하세요
   }
 
   void _getFavoriteMenus() async {
@@ -60,8 +60,9 @@ class _FavoriteMenuPage extends State<Heartpage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content:
-                Text('좋아하는 메뉴를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+          content:
+          Text('좋아하는 메뉴를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}'),
+        ),
       );
     }
   }
@@ -75,14 +76,22 @@ class _FavoriteMenuPage extends State<Heartpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xfff5f7fa),
       appBar: AppBar(
-        title: Text('하트를 누른 메뉴'),
+        title: Text(
+          '하트를 누른 메뉴',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Color(0xfff5f7fa),
+        iconTheme: IconThemeData(color: Colors.black),
+        elevation: 0,
       ),
-      body: ListView.builder(
-        itemCount: favoriteMenus.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.builder(
+          itemCount: favoriteMenus.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -93,13 +102,24 @@ class _FavoriteMenuPage extends State<Heartpage> {
                 );
               },
               child: Card(
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                color: Colors.white,
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: ListTile(
                   leading: Icon(Icons.favorite, color: Colors.red),
-                  title: Text(favoriteMenus[index]),
+                  title: Text(
+                    favoriteMenus[index],
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios),
                 ),
-              ));
-        },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

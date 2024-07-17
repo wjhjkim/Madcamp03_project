@@ -37,7 +37,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '카이마루',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 1',
       '국 1',
@@ -49,7 +48,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '교수회관',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 2',
       '국 1',
@@ -61,7 +59,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '서측식당',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 3',
       '국 1',
@@ -73,7 +70,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '동측식당',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 4',
       '국 1',
@@ -87,7 +83,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '동측식당',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 1',
       '국 1',
@@ -99,7 +94,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '카이마루',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 2',
       '국 1',
@@ -111,7 +105,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '카이마루',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 3',
       '국 1',
@@ -123,7 +116,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '교수회관',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 4',
       '국 1',
@@ -135,7 +127,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '서측식당',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 5',
       '국 1',
@@ -149,7 +140,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '서측식당',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 1',
       '국 1',
@@ -161,7 +151,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '카이마루',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 2',
       '국 1',
@@ -173,7 +162,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '교수회관',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 3',
       '국 1',
@@ -185,7 +173,6 @@ class _todays_menuState extends State<tab2_todays_menu>
     [
       '동측식당',
       'assets/sample_image.jpg',
-      // '가격',
       '4.0',
       '주 메뉴 4',
       '국 1',
@@ -269,33 +256,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           break;
       }
     });
-  }
-
-  // void _pickDate() async {
-  //   DateTime? pickedDate = await showDatePicker(
-  //     context: context,
-  //     initialDate: _selectedDate,
-  //     firstDate: DateTime(2000),
-  //     lastDate: DateTime(2101),
-  //   );
-  //
-  //   if (pickedDate != null && pickedDate != _selectedDate) {
-  //     setState(() {
-  //       _selectedDate = pickedDate;
-  //     });
-  //   }
-  // }
-
-  Widget _buildPageIndicator(int index) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4.0),
-      width: 12.0,
-      height: 12.0,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: current_index == index + 1 ? Colors.blue : Colors.grey,
-      ),
-    );
   }
 
   Future<void> fetchMenus(String Date) async {
@@ -503,7 +463,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '카이마루',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 1',
             '국 1',
@@ -515,7 +474,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '교수회관',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 2',
             '국 1',
@@ -527,7 +485,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '서측식당',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 3',
             '국 1',
@@ -539,7 +496,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '동측식당',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 4',
             '국 1',
@@ -553,7 +509,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '동측식당',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 1',
             '국 1',
@@ -565,7 +520,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '카이마루',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 2',
             '국 1',
@@ -577,7 +531,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '카이마루',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 3',
             '국 1',
@@ -589,7 +542,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '교수회관',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 4',
             '국 1',
@@ -601,7 +553,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '서측식당',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 5',
             '국 1',
@@ -615,7 +566,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '서측식당',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 1',
             '국 1',
@@ -627,7 +577,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '카이마루',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 2',
             '국 1',
@@ -639,7 +588,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '교수회관',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 3',
             '국 1',
@@ -651,7 +599,6 @@ class _todays_menuState extends State<tab2_todays_menu>
           [
             '동측식당',
             'assets/sample_image.jpg',
-            // '가격',
             '4.0',
             '주 메뉴 4',
             '국 1',
@@ -672,7 +619,7 @@ class _todays_menuState extends State<tab2_todays_menu>
     try {
       // 각 메뉴 항목에 대해 알러지 개수를 계산하고 이를 포함한 새로운 리스트를 생성합니다.
       List<Map<String, dynamic>> menuWithAllergyCount =
-          await Future.wait(menu.map((menu) async {
+      await Future.wait(menu.map((menu) async {
         int allergyCount = await getAllergyCount(menu.sublist(3));
         return {'menu': menu, 'allergyCount': allergyCount};
       }).toList());
@@ -687,7 +634,7 @@ class _todays_menuState extends State<tab2_todays_menu>
           .toList();
 
       List<Map<String, dynamic>> menuWithFavorite =
-          await Future.wait(menu.map((menu) async {
+      await Future.wait(menu.map((menu) async {
         int favoriteCount = await getFavoriteCount(menu.sublist(3));
         return {'menu': menu, 'FavoriteCount': favoriteCount};
       }).toList());
@@ -778,7 +725,7 @@ class _todays_menuState extends State<tab2_todays_menu>
     String? allergiesJson = prefs.getString('allergies');
     if (allergiesJson != null) {
       final Map<String, bool> loadedAllergies =
-          Map<String, bool>.from(json.decode(allergiesJson));
+      Map<String, bool>.from(json.decode(allergiesJson));
       Future.delayed(Duration.zero, () {
         setState(() {
           _allergies = loadedAllergies;
@@ -830,50 +777,39 @@ class _todays_menuState extends State<tab2_todays_menu>
           SystemNavigator.pop();
         },
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xfff5f7fa),
           appBar: AppBar(
             automaticallyImplyLeading: false,
             title: Row(children: [
-              // SizedBox(
-              //   width: 4,
-              // ),
               Text(
                 "오늘의 메뉴",
                 style: TextStyle(
                   fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
             ]),
             actions: [
-              Row(
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => my_page(),
-                          ),
-                        );
-                      },
-                      child: Icon(Icons.person_outline)),
-                  SizedBox(
-                    width: 8,
-                  )
-                ],
-              )
+              IconButton(
+                icon: Icon(Icons.person_outline, color: Colors.black),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => my_page(),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(width: 8),
             ],
-            // shape: Border(
-            //   bottom: BorderSide(
-            //     color: Colors.grey,
-            //     width: 8,
-            //   ),
-            // ),
-            // centerTitle: true,
+            backgroundColor: Color(0xfff5f7fa),
+            elevation: 0,
           ),
           body: Column(children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -897,7 +833,10 @@ class _todays_menuState extends State<tab2_todays_menu>
                         Row(children: <Widget>[
                           Text(
                             DateFormat('yyyy년 MM월 dd일').format(_selectedDate),
-                            style: TextStyle(color: Colors.black, fontSize: 18),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             width: 8,
@@ -908,8 +847,10 @@ class _todays_menuState extends State<tab2_todays_menu>
                               icon: Icon(Icons.arrow_drop_down),
                               iconSize: 24,
                               elevation: 16,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 18),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
                               onChanged: (String? newValue) {
                                 setState(() {
                                   selectedMeal = newValue!;
@@ -945,10 +886,10 @@ class _todays_menuState extends State<tab2_todays_menu>
                         ),
                       ]),
                   SizedBox(
-                    height: 8,
+                    height: 16,
                   ),
                   Container(
-                    height: 510,
+                    height: 480,
                     child: PageView.builder(
                       controller: _pageController,
                       itemCount: _pageCount,
@@ -974,22 +915,29 @@ class _todays_menuState extends State<tab2_todays_menu>
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.asset(
-                                      menu[index][1],
-                                      fit: BoxFit.cover,
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      child: Image.asset(
+                                        menu[index][1],
+                                        fit: BoxFit.cover,
+                                        height: 200,
+                                        width: double.infinity,
+                                      ),
                                     ),
+                                    SizedBox(height: 16),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           '${menu[index][3]}',
                                           style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,
+                                            color: Colors.black,
                                           ),
                                         ),
                                         Row(
@@ -1000,37 +948,38 @@ class _todays_menuState extends State<tab2_todays_menu>
                                               '${menu[index][2]}',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
+                                                color: Colors.black,
                                               ),
                                             )
                                           ],
                                         )
                                       ],
                                     ),
+                                    SizedBox(height: 8),
                                     Text(
                                       '장소: ' + '${menu[index][0]}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
+                                        color: Colors.black,
                                       ),
                                     ),
-                                    Text(
-                                      '   - ' + '${menu[index][4]}',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
+                                    SizedBox(height: 8),
+                                    ...menu[index]
+                                        .sublist(4)
+                                        .map((item) => Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 4.0),
+                                      child: Text(
+                                        '   - ' + item,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey[700],
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      '   - ' + '${menu[index][5]}',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.end,
-                                    //   children: [Text('${menu[index][2]}원')],
-                                    // )
+                                    ))
+                                        .toList(),
                                   ],
                                 ),
                               ),
@@ -1039,211 +988,177 @@ class _todays_menuState extends State<tab2_todays_menu>
                     ),
                   ),
                   SizedBox(
-                    height: 6,
+                    height: 16,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children:
-                        List.generate(_pageCount - 2, _buildPageIndicator),
+                    List.generate(_pageCount - 2, _buildPageIndicator),
                   ),
-                  // _buildFoodListWidget(filter_name),
                 ],
               ),
             ),
-            // Container(
-            //   height: 8,
-            //   color: Colors.grey,
-            // ),
             Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => menu_show_one(
-                                date: _selectedDate,
-                                breakfast: breakfast,
-                                lunch: lunch,
-                                dinner: dinner),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        color: Colors.white,
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(children: [
-                            SizedBox(height: 8,),
-                            Container(
-                              width: 36,
-                              height: 36,
-                              child: Image.asset(
-                                "assets/free-icon-font-list.png",
-                                fit: BoxFit.cover,
-                              ),
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => menu_show_one(
+                                  date: _selectedDate,
+                                  breakfast: breakfast,
+                                  lunch: lunch,
+                                  dinner: dinner),
                             ),
-                            SizedBox(height: 16,),
-                            Text("모아보기", style: TextStyle(fontWeight: FontWeight.w600,),),
-                          ]),
-                        ),
-                      ),
-                    )),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                monthly_calendar(place: menu[current_index][0]),
+                          );
+                        },
+                        child: Card(
+                          color: Colors.white,
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                        );
-                      },
-                      child: Card(
-                        color: Colors.white,
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(children: [
-                            SizedBox(height: 8,),
-                            Container(
-                              width: 36,
-                              height: 36,
-                              child: Image.asset(
-                                "assets/free-icon-font-calendar.png",
-                                fit: BoxFit.cover,
-                              ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 8),
+                                Container(
+                                  width: 36,
+                                  height: 36,
+                                  child: Image.asset(
+                                    "assets/free-icon-font-list.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  "모아보기",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 16,),
-                            Text("월별 식단", style: TextStyle(fontWeight: FontWeight.w600,),),
-                          ]),
-                        ),
-                      ),
-                    )),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => write_review(
-                                date: _selectedDate,
-                                time: selectedMeal,
-                                place: menu[current_index][0]),
                           ),
-                        );
-                      },
-                      child: Card(
-                        color: Colors.white,
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(children: [
-                            SizedBox(height: 8,),
-                            Container(
-                              width: 36,
-                              height: 36,
-                              child: Image.asset(
-                                "assets/free-icon-font-edit.png",
-                                fit: BoxFit.cover,
-                              ),
+                      )),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => monthly_calendar(
+                                  place: menu[current_index][0]),
                             ),
-                            SizedBox(height: 16,),
-                            Text("리뷰 작성", style: TextStyle(fontWeight: FontWeight.w600,),),
-                          ]),
+                          );
+                        },
+                        child: Card(
+                          color: Colors.white,
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 8),
+                                Container(
+                                  width: 36,
+                                  height: 36,
+                                  child: Image.asset(
+                                    "assets/free-icon-font-calendar.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  "월별 식단",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    )),
-                  ],
-                )
-
-                // _buildFoodListWidget(filter_name),
-                ),
+                      )),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => write_review(
+                                  date: _selectedDate,
+                                  time: selectedMeal,
+                                  place: menu[current_index][0]),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          color: Colors.white,
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 8),
+                                Container(
+                                  width: 36,
+                                  height: 36,
+                                  child: Image.asset(
+                                    "assets/free-icon-font-edit.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  "리뷰 작성",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )),
+                ],
+              ),
+            ),
           ]),
         ));
   }
 
-// Widget _buildFoodListWidget(String filter_name) {
-//   switch (filter_name) {
-//     case '메뉴별':
-//       return Expanded(
-//         child: ListView.builder(
-//           itemCount: menu.length,
-//           itemBuilder: (context, index) {
-//             return Card(
-//               child: ListTile(
-//                 title: Text(menu[index][1]),
-//                 subtitle: Text(menu[index].sublist(2).toString()),
-//               ),
-//             );
-//           },
-//         ),
-//       );
-//     case '식당별':
-//       return Expanded(
-//         child: ListView.builder(
-//           itemCount: menu.length,
-//           itemBuilder: (context, index) {
-//             return Card(
-//               child: ListTile(
-//                 title: Text(menu[index][0]),
-//                 subtitle: ChangeTextScreen(menu: menu[index].sublist(1)),
-//                 trailing: Text("뭐임?"),
-//               ),
-//             );
-//           },
-//         ),
-//       );
-//     case '개인별':
-//       return Expanded(
-//         child: ListView.builder(
-//           itemCount: menu.length,
-//           itemBuilder: (context, index) {
-//             return Card(
-//               child: ListTile(
-//                 title: Text(menu[index][1]),
-//                 subtitle: Text(menu[index].sublist(2).toString()),
-//               ),
-//             );
-//           },
-//         ),
-//       );
-//     default:
-//       return Column(
-//         children: [Text('잘못된 선택입니다.')],
-//       );
-//   }
-// }
+  Widget _buildPageIndicator(int index) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 4.0),
+      width: 12.0,
+      height: 12.0,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: current_index == index + 1 ? Colors.blue : Colors.grey,
+      ),
+    );
+  }
 }
-//
-// class _menuBox extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Text("Name", style: TextStyle(color: Colors.blue, fontSize: 20)),
-//       ],
-//     );
-//   }
-// }

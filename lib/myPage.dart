@@ -10,11 +10,10 @@ class my_page extends StatefulWidget {
   const my_page({super.key});
 
   @override
-  _my_page createState() => _my_page();
+  _MyPageState createState() => _MyPageState();
 }
 
-class _my_page extends State<my_page>
-    with TickerProviderStateMixin {
+class _MyPageState extends State<my_page> with TickerProviderStateMixin {
   String nickname = "UserNickname"; // 닉네임
 
   Future<void> _loadUserID() async {
@@ -33,8 +32,12 @@ class _my_page extends State<my_page>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff5f7fa),
       appBar: AppBar(
-        title: Text('My Page'),
+        title: Text('My Page', style: TextStyle(color: Colors.black)),
+        backgroundColor: Color(0xfff5f7fa),
+        iconTheme: IconThemeData(color: Colors.black),
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -49,7 +52,9 @@ class _my_page extends State<my_page>
               ),
             ),
             SizedBox(height: 24),
-            ElevatedButton.icon(
+            _buildMenuButton(
+              icon: Icons.favorite,
+              label: '하트를 누른 메뉴',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -58,14 +63,11 @@ class _my_page extends State<my_page>
                   ),
                 );
               },
-              icon: Icon(Icons.favorite),
-              label: Text('하트를 누른 메뉴'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 48), // 버튼을 가로로 꽉 채우기
-              ),
             ),
             SizedBox(height: 16),
-            ElevatedButton.icon(
+            _buildMenuButton(
+              icon: Icons.warning,
+              label: '알레르기 관리',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -74,14 +76,11 @@ class _my_page extends State<my_page>
                   ),
                 );
               },
-              icon: Icon(Icons.warning),
-              label: Text('알레르기 관리'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 48),
-              ),
             ),
             SizedBox(height: 16),
-            ElevatedButton.icon(
+            _buildMenuButton(
+              icon: Icons.reviews,
+              label: '쓴 리뷰 확인',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -90,14 +89,29 @@ class _my_page extends State<my_page>
                   ),
                 );
               },
-              icon: Icon(Icons.reviews),
-              label: Text('쓴 리뷰 확인'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 48),
-              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildMenuButton(
+      {required IconData icon,
+        required String label,
+        required void Function() onPressed}) {
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, color: Colors.white),
+      label: Text(label, style: TextStyle(color: Colors.white)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        minimumSize: Size(double.infinity, 48),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        elevation: 2,
       ),
     );
   }

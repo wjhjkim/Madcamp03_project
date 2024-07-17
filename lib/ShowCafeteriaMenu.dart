@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'menuDetailPage.dart';
 import 'package:intl/intl.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class show_cafeteria_menu extends StatefulWidget {
@@ -83,9 +81,12 @@ class _MyCustomScrollView extends State<MyCustomScrollView> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
+    return Scaffold(
+      backgroundColor: Color(0xfff5f7fa),
+        body: CustomScrollView(
       slivers: [
         SliverAppBar(
+          backgroundColor: Color(0xfff5f7fa),
           pinned: true,
           expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
@@ -98,7 +99,7 @@ class _MyCustomScrollView extends State<MyCustomScrollView> {
         SliverPersistentHeader(
           delegate: _SliverAppBarDelegate(
             child: Container(
-              color: Colors.white,
+              color: Color(0xfff5f7fa),
               child: Card(
                 color: Colors.white,
                 elevation: 4,
@@ -145,7 +146,7 @@ class _MyCustomScrollView extends State<MyCustomScrollView> {
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
+                (BuildContext context, int index) {
               return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -165,13 +166,13 @@ class _MyCustomScrollView extends State<MyCustomScrollView> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              '알레르기 표기 정보: 1.난류 2.우유 3.메밀 4.땅콩 5.대두 6.밀 7.고등어 8.게 9.새우 10.돼지고기 11.복숭아 12.토마토 13.아황산류 14.호두 15.닭고기 16.쇠고기 17.오징어 18.조개류 (굴, 전복, 홍합 포함)19.잣',
+              '알레르기 표기 정보: 1.난류 2.우유 3.메밀 4.땅콩 5.대두 6.밀 7.고등어 8.게 9.새우 10.돼지고기 11.복숭아 12.토마토 13.아황산류 14.호두 15.닭고기 16.쇠고기 17.오징어 18.조개류 (굴, 전복, 홍합 포함) 19.잣',
               style: TextStyle(fontSize: 10),
             ),
           ),
         ),
       ],
-    );
+    ));
   }
 }
 
@@ -270,7 +271,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
 
   Future<void> _initialize(String menu_Name) async {
     await _loadUserID();
-    _getFoodInfo(menu_Name);  // 여기에 실제 메뉴 이름을 입력하세요
+    _getFoodInfo(menu_Name); // 여기에 실제 메뉴 이름을 입력하세요
   }
 
   Future<void> _loadAllergies() async {
@@ -298,7 +299,6 @@ class _FavoriteCardState extends State<FavoriteCard> {
     print(menu_name + " " + userID);
     final response = await http.post(
       Uri.parse('${dotenv.env['SERVER_URL']}/food'),
-      // 여기에 실제 서버 URL을 입력하세요
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -327,7 +327,6 @@ class _FavoriteCardState extends State<FavoriteCard> {
               .toList();
           allergy = intList;
         }
-        // allergy = jsonResponse["allergy"];
         star = jsonResponse["starRating"].toDouble();
       });
     } else {
@@ -343,7 +342,6 @@ class _FavoriteCardState extends State<FavoriteCard> {
   void _changeFavoriteMenus(String menu_name) async {
     final response = await http.post(
       Uri.parse('${dotenv.env['SERVER_URL']}/food/change/heart'),
-      // 여기에 실제 서버 URL을 입력하세요
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -361,7 +359,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content:
-                Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+            Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
       );
     }
   }
@@ -378,56 +376,64 @@ class _FavoriteCardState extends State<FavoriteCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Colors.white,
-        child: ListTile(
-      title: Text(
-        menu[index],
-        style: TextStyle(fontSize: 18),
+      color: Colors.white,
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
       ),
-      subtitle: RichText(
-        text: TextSpan(
-          text: '알레르기: ',
-          style: TextStyle(color: Colors.black),
-          children: [
-            ...allergy.map((item) {
-              if (_allergies[_allergies_map[item]] == true) {
-                return TextSpan(
-                  text: '$item ',
-                  style: TextStyle(color: Colors.red),
-                );
-              } else {
-                return TextSpan(
-                  text: '$item ',
-                  style: TextStyle(color: Colors.black),
-                );
-              }
-            }).toList(),
-          ],
+      elevation: 4,
+      child: ListTile(
+        title: Text(
+          menu[index],
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-      ),
-      trailing: SizedBox(
-        width: 100, // 적절한 크기를 설정합니다.
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: isFavorite ? Colors.red : Colors.grey,
+        subtitle: RichText(
+          text: TextSpan(
+            text: '알레르기: ',
+            style: TextStyle(color: Colors.black),
+            children: [
+              ...allergy.map((item) {
+                if (_allergies[_allergies_map[item]] == true) {
+                  return TextSpan(
+                    text: '${_allergies_map[item]} ',
+                    style: TextStyle(color: Colors.red),
+                  );
+                } else {
+                  return TextSpan(
+                    text: '${_allergies_map[item]} ',
+                    style: TextStyle(color: Colors.black),
+                  );
+                }
+              }).toList(),
+            ],
+          ),
+        ),
+        trailing: SizedBox(
+          width: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: isFavorite ? Colors.red : Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _changeFavoriteMenus(menu[index]);
+                  });
+                },
               ),
-              onPressed: () {
-                setState(() {
-                  // isFavorite = !isFavorite;
-                  _changeFavoriteMenus(menu[index]);
-                });
-              },
-            ),
-            Icon(Icons.star, color: Colors.amber),
-            Text(" " + star.toString())
-          ],
+              Icon(Icons.star, color: Colors.amber),
+              Text(
+                " $star",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

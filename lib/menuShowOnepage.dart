@@ -11,11 +11,10 @@ class menu_show_one extends StatefulWidget {
   final List<List<String>> dinner;
 
   @override
-  _show_menu createState() => _show_menu();
+  _ShowMenuState createState() => _ShowMenuState();
 }
 
-class _show_menu extends State<menu_show_one>
-    with TickerProviderStateMixin {
+class _ShowMenuState extends State<menu_show_one> with TickerProviderStateMixin {
   DateTime date = DateTime.now();
   List<List<String>> breakfast = [];
   List<List<String>> lunch = [];
@@ -34,50 +33,96 @@ class _show_menu extends State<menu_show_one>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(DateFormat('yyyy년 MM월 dd일 메뉴').format(date)),
+      backgroundColor: Color(0xfff5f7fa),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          DateFormat('yyyy년 MM월 dd일 메뉴').format(date),
+          style: TextStyle(color: Colors.black),
         ),
-        body:
-        Column(children: [
-          SizedBox(height: 20,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        backgroundColor: Color(0xfff5f7fa),
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(width: 4,),
-              Column(children: [
-                Text("아침", style: TextStyle(fontSize: 20),),
-                for (var data in _locations)
-                  Column(children: [
-                    Text(data, style: TextStyle(fontSize: 16),),
-                    for (var i in breakfast)
-                      if (i[0] == data)
-                        Text(i.sublist(3).join("\n"), textAlign: TextAlign.center,)
-                  ],)
-              ],),
-              Column(children: [
-                Text("점심", style: TextStyle(fontSize: 20),),
-                for (var data in _locations)
-                  Column(children: [
-                    Text(data, style: TextStyle(fontSize: 16),),
-                    for (var i in lunch)
-                      if (i[0] == data)
-                        Text(i.sublist(3).join("\n"), textAlign: TextAlign.center,)
-                  ],)
-              ],),
-              Column(children: [
-                Text("저녁", style: TextStyle(fontSize: 20),),
-                for (var data in _locations)
-                  Column(children: [
-                    Text(data, style: TextStyle(fontSize: 16),),
-                    for (var i in dinner)
-                      if (i[0] == data)
-                        Text(i.sublist(3).join("\n"), textAlign: TextAlign.center,)
-                  ],),
-              ],),
-              SizedBox(width: 4,),
+              SizedBox(height: 16),
+              _buildMealSection('아침', breakfast),
+              SizedBox(height: 24),
+              _buildMealSection('점심', lunch),
+              SizedBox(height: 24),
+              _buildMealSection('저녁', dinner),
             ],
-          )
-        ],));
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMealSection(String meal, List<List<String>> menu) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          meal,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        SizedBox(height: 16),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: _locations.map((location) => _buildLocationSection(location, menu)).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLocationSection(String location, List<List<String>> menu) {
+    List<String> items = [];
+    for (var item in menu) {
+      if (item[0] == location) {
+        items = item.sublist(3);
+        break;
+      }
+    }
+
+    return items.isNotEmpty
+        ? Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+      color: Colors.white,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              location,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+            SizedBox(height: 8),
+            for (var item in items)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Text(
+                  '• $item',
+                  style: TextStyle(fontSize: 16, color: Colors.black87),
+                ),
+              ),
+          ],
+        ),
+      ),
+    ))
+        : SizedBox.shrink();
   }
 }
