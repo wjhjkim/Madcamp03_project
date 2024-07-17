@@ -120,3 +120,5 @@ https://github.com/user-attachments/assets/e4e5c272-266e-4b1f-8c31-c875696a2a26
 https://github.com/user-attachments/assets/057a582f-2fe8-4c2d-afa4-034686ce82db
 
 ## APK 파일 링크
+
+https://drive.google.com/file/d/1r7fUuopOJ_jinPeOGySVRLw_fwiMB331/view?usp=sharing
