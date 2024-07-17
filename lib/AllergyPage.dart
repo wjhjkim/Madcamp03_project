@@ -13,21 +13,40 @@ class AllergyPage extends StatefulWidget {
 }
 
 class _AllergyManagementPageState extends State<AllergyPage> {
-  Map<String, bool> _allergies = {};
+  Map<String, bool> _allergies = {
+    "난류": false,
+    "우유": false,
+    "메밀": false,
+    "땅콩": false,
+    "대두": false,
+    "밀": false,
+    "고등어": false,
+    "게": false,
+    "새우": false,
+    "돼지고기": false,
+    "복숭아": false,
+    "토마토": false,
+    "아황산류": false,
+    "호두": false,
+    "닭고기": false,
+    "쇠고기": false,
+    "오징어": false,
+    "조개류": false,
+    "잣": false,
+  };
 
   @override
   void initState() {
     super.initState();
     _loadAllergies();
-    final allergies = Provider.of<Allergy>(context, listen: false);
-    allergies.saveAllergies(_allergies);
   }
 
   Future<void> _loadAllergies() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? allergiesJson = prefs.getString('allergies');
     if (allergiesJson != null) {
-      final Map<String, bool> loadedAllergies = Map<String, bool>.from(json.decode(allergiesJson));
+      final Map<String, bool> loadedAllergies =
+          Map<String, bool>.from(json.decode(allergiesJson));
       Future.delayed(Duration.zero, () {
         setState(() {
           _allergies = loadedAllergies;
@@ -40,9 +59,6 @@ class _AllergyManagementPageState extends State<AllergyPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String allergiesJson = json.encode(_allergies);
     await prefs.setString('allergies', allergiesJson);
-
-    final allergies = Provider.of<Allergy>(context, listen: false);
-    allergies.saveAllergies(_allergies);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('알레르기 정보가 저장되었습니다.')),

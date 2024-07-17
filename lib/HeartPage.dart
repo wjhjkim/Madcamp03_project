@@ -35,6 +35,11 @@ class _FavoriteMenuPage extends State<Heartpage> {
     userID = prefs.getString('userID') ?? '';
   }
 
+  Future<void> _initialize() async {
+    await _loadUserID();
+    _getFavoriteMenus();  // 여기에 실제 메뉴 이름을 입력하세요
+  }
+
   void _getFavoriteMenus() async {
     final response = await http.post(
       Uri.parse('${dotenv.env['SERVER_URL']}/heart/get'),
@@ -48,8 +53,10 @@ class _FavoriteMenuPage extends State<Heartpage> {
     );
 
     if (response.statusCode == 200) {
-      List<String> jsonResponse = json.decode(response.body);
-      favoriteMenus = jsonResponse;
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      setState(() {
+        favoriteMenus = List<String>.from(jsonResponse["foodNames"]);
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -62,13 +69,13 @@ class _FavoriteMenuPage extends State<Heartpage> {
   @override
   void initState() {
     super.initState();
-    // _loadUserID();
-    // _getFavoriteMenus();
+    _initialize();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('하트를 누른 메뉴'),
       ),

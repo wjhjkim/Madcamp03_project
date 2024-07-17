@@ -7,6 +7,9 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'util.dart';
+import 'theme.dart';
+
 void main() async {
   await dotenv.load(fileName: "assets/.env");
   runApp(
@@ -19,11 +22,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final brightness = View.of(context).platformDispatcher.platformBrightness;
+    TextTheme textTheme = createTextTheme(context, "Nanum Gothic Coding", "IBM Plex Sans KR");
+
+    MaterialTheme theme = MaterialTheme(textTheme);
     return MaterialApp(
       title: 'login page',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: brightness == Brightness.light ? theme.light() : theme.dark(),
       home: SplashScreen(),
     );
   }

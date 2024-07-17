@@ -28,6 +28,11 @@ class ReviewListPage extends State<reviewlistpage> {
     userID = prefs.getString('userID') ?? '';
   }
 
+  Future<void> _initialize() async {
+    await _loadUserID();
+    _getUserReview();  // 여기에 실제 메뉴 이름을 입력하세요
+  }
+
   void _getUserReview() async {
     final response = await http.post(
       Uri.parse('${dotenv.env['SERVER_URL']}/review/get/user'),
@@ -41,11 +46,25 @@ class ReviewListPage extends State<reviewlistpage> {
     );
 
     if (response.statusCode == 200) {
-      List<List<String>> jsonResponse = json.decode(response.body);
-      reviews = jsonResponse;
+      List<dynamic> jsonResponse = json.decode(response.body);
+      setState(() {
+        reviews = [];
+        for (var i in jsonResponse) {
+          List<String> a = [];
+          a.add(i["content"]);
+          a.add(i["foodName"]);
+          String b = i["reviewDate"];
+          // DateTime b1 = i["reviewDate"];
+          a.add(b);
+          // a.add(DateFormat('yyyy년 MM월 dd일').format(b1));
+          a.add(i["starRating"].toString());
+          reviews.add(a);
+        }
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('리뷰를 불러오는 것을 실패했습니다. 오류코드: ${response.statusCode}')),
+        SnackBar(
+            content: Text('리뷰를 불러오는 것을 실패했습니다. 오류코드: ${response.statusCode}')),
       );
     }
   }
@@ -53,8 +72,7 @@ class ReviewListPage extends State<reviewlistpage> {
   @override
   void initState() {
     super.initState();
-    // _loadUserID();
-    // _getUserReview();
+    _initialize();
   }
 
   @override
@@ -80,7 +98,7 @@ class ReviewListPage extends State<reviewlistpage> {
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
                     leading: SizedBox(
-                      width: 45,
+                      width: 50,
                       height: 30,
                       child: Row(
                         children: [

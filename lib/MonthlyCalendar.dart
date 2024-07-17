@@ -26,7 +26,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '카이마루',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 1',
       '국 1',
@@ -38,7 +38,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '교수회관',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 2',
       '국 1',
@@ -50,7 +50,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '서측식당',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 3',
       '국 1',
@@ -62,7 +62,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '동측식당',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 4',
       '국 1',
@@ -76,7 +76,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '동측식당',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 1',
       '국 1',
@@ -88,7 +88,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '카이마루',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 2',
       '국 1',
@@ -100,7 +100,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '카이마루',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 3',
       '국 1',
@@ -112,7 +112,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '교수회관',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 4',
       '국 1',
@@ -124,7 +124,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '서측식당',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 5',
       '국 1',
@@ -138,7 +138,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '서측식당',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 1',
       '국 1',
@@ -150,7 +150,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '카이마루',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 2',
       '국 1',
@@ -162,7 +162,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '교수회관',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 3',
       '국 1',
@@ -174,7 +174,7 @@ class _monthly_calendar extends State<monthly_calendar>
     [
       '동측식당',
       'assets/sample_image.jpg',
-      '가격',
+      // '가격',
       '4.0',
       '주 메뉴 4',
       '국 1',
@@ -189,28 +189,375 @@ class _monthly_calendar extends State<monthly_calendar>
   void initState() {
     super.initState();
     _selectedLocation = widget.place;
-    // fetchMenus(DateFormat('yyyy년 MM월 dd일').format(selectedDate));
+    fetchMenus(DateFormat('yyyy-MM-dd').format(selectedDate));
   }
 
   Future<void> fetchMenus(String Date) async {
-    final response = await http.get(Uri.parse('${dotenv.env['SERVER_URL']}/menu/getmenu?Date=$Date'));
+    final response = await http
+        .get(Uri.parse('${dotenv.env['SERVER_URL']}/menu/getmenu?date=$Date'));
 
-    // 가게 이름, 사진(있으면), 가격, 별점, 주 메뉴, 국, 밥, 반찬1, 반찬2, 반찬3 순...
+    // 가게 이름, 사진(있으면), 별점, 주 메뉴, 국, 밥, 반찬1, 반찬2, 반찬3 순...
+    // Should Repair
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      List jsonResponse = json.decode(response.body);
+      print(jsonResponse);
       setState(() {
-        breakfast = jsonResponse['아침'];
-        lunch = jsonResponse['점심'];
-        dinner = jsonResponse['저녁'];
+        breakfast = [];
+        lunch = [];
+        dinner = [];
+
+        for (var i = 0; i < jsonResponse.length; i++) {
+          if (jsonResponse[i]["time"] == 1) {
+            if (breakfast.isNotEmpty) {
+              bool a = false;
+              for (var j in breakfast) {
+                if (j[0] == "카이마루" && jsonResponse[i]["place"] == "fclt") {
+                  j.add(jsonResponse[i]["foodName"]);
+                  a = true;
+                  break;
+                } else if (j[0] == "교수회관" &&
+                    jsonResponse[i]["place"] == "emp") {
+                  j.add(jsonResponse[i]["foodName"]);
+                  a = true;
+                  break;
+                } else if (j[0] == "서측식당" &&
+                    jsonResponse[i]["place"] == "west1") {
+                  j.add(jsonResponse[i]["foodName"]);
+                  a = true;
+                  break;
+                } else if (j[0] == jsonResponse[i]["place"]) {
+                  j.add(jsonResponse[i]["foodName"]);
+                  a = true;
+                  break;
+                }
+              }
+              if (!a) {
+                List<String> subList = [];
+                if (jsonResponse[i]["place"] == "fclt") {
+                  subList.add("카이마루");
+                } else if (jsonResponse[i]["place"] == "emp") {
+                  subList.add("교수회관");
+                } else if (jsonResponse[i]["place"] == "west1") {
+                  subList.add("서측식당");
+                } else {
+                  subList.add(jsonResponse[i]["place"]);
+                }
+                // 이미지
+                subList.add('assets/sample_image.jpg');
+                // 별점
+                subList.add("4.0");
+                subList.add(jsonResponse[i]["foodName"]);
+                breakfast.add(subList);
+              }
+            } else {
+              List<String> subList = [];
+              if (jsonResponse[i]["place"] == "fclt") {
+                subList.add("카이마루");
+              } else if (jsonResponse[i]["place"] == "emp") {
+                subList.add("교수회관");
+              } else if (jsonResponse[i]["place"] == "west1") {
+                subList.add("서측식당");
+              } else {
+                subList.add(jsonResponse[i]["place"]);
+              }
+              // 이미지
+              subList.add('assets/sample_image.jpg');
+              // 별점
+              subList.add("4.0");
+              subList.add(jsonResponse[i]["foodName"]);
+              breakfast.add(subList);
+            }
+          } else if (jsonResponse[i]["time"] == 2) if (lunch.isNotEmpty) {
+            bool a = false;
+            for (var j in lunch) {
+              if (j[0] == "카이마루" && jsonResponse[i]["place"] == "fclt") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == "교수회관" && jsonResponse[i]["place"] == "emp") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == "서측식당" &&
+                  jsonResponse[i]["place"] == "west1") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == jsonResponse[i]["place"]) {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              }
+            }
+            if (!a) {
+              List<String> subList = [];
+              if (jsonResponse[i]["place"] == "fclt") {
+                subList.add("카이마루");
+              } else if (jsonResponse[i]["place"] == "emp") {
+                subList.add("교수회관");
+              } else if (jsonResponse[i]["place"] == "west1") {
+                subList.add("서측식당");
+              } else {
+                subList.add(jsonResponse[i]["place"]);
+              }
+              // 이미지
+              subList.add('assets/sample_image.jpg');
+              // 별점
+              subList.add("4.0");
+              subList.add(jsonResponse[i]["foodName"]);
+              lunch.add(subList);
+            }
+          } else {
+            List<String> subList = [];
+            if (jsonResponse[i]["place"] == "fclt") {
+              subList.add("카이마루");
+            } else if (jsonResponse[i]["place"] == "emp") {
+              subList.add("교수회관");
+            } else if (jsonResponse[i]["place"] == "west1") {
+              subList.add("서측식당");
+            } else {
+              subList.add(jsonResponse[i]["place"]);
+            }
+            // 이미지
+            subList.add('assets/sample_image.jpg');
+            // 별점
+            subList.add("4.0");
+            subList.add(jsonResponse[i]["foodName"]);
+            lunch.add(subList);
+          }
+          else if (dinner.isNotEmpty) {
+            bool a = false;
+            for (var j in dinner) {
+              if (j[0] == "카이마루" && jsonResponse[i]["place"] == "fclt") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == "교수회관" && jsonResponse[i]["place"] == "emp") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == "서측식당" &&
+                  jsonResponse[i]["place"] == "west1") {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              } else if (j[0] == jsonResponse[i]["place"]) {
+                j.add(jsonResponse[i]["foodName"]);
+                a = true;
+                break;
+              }
+            }
+            if (!a) {
+              List<String> subList = [];
+              if (jsonResponse[i]["place"] == "fclt") {
+                subList.add("카이마루");
+              } else if (jsonResponse[i]["place"] == "emp") {
+                subList.add("교수회관");
+              } else if (jsonResponse[i]["place"] == "west1") {
+                subList.add("서측식당");
+              } else {
+                subList.add(jsonResponse[i]["place"]);
+              }
+              // 이미지
+              subList.add('assets/sample_image.jpg');
+              // 별점
+              subList.add("4.0");
+              subList.add(jsonResponse[i]["foodName"]);
+              dinner.add(subList);
+            }
+          } else {
+            List<String> subList = [];
+            if (jsonResponse[i]["place"] == "fclt") {
+              subList.add("카이마루");
+            } else if (jsonResponse[i]["place"] == "emp") {
+              subList.add("교수회관");
+            } else if (jsonResponse[i]["place"] == "west1") {
+              subList.add("서측식당");
+            } else {
+              subList.add(jsonResponse[i]["place"]);
+            }
+            // 이미지
+            subList.add('assets/sample_image.jpg');
+            // 별점
+            subList.add("4.0");
+            subList.add(jsonResponse[i]["foodName"]);
+            dinner.add(subList);
+          }
+        }
       });
     } else {
-      throw Exception('Failed to load posts');
+      setState(() {
+        breakfast = [
+          [
+            '카이마루',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 1',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '교수회관',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 2',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '서측식당',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 3',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '동측식당',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 4',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ]
+        ];
+        lunch = [
+          [
+            '동측식당',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 1',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '카이마루',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 2',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '카이마루',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 3',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '교수회관',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 4',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '서측식당',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 5',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ]
+        ];
+        dinner = [
+          [
+            '서측식당',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 1',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '카이마루',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 2',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '교수회관',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 3',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ],
+          [
+            '동측식당',
+            'assets/sample_image.jpg',
+            // '가격',
+            '4.0',
+            '주 메뉴 4',
+            '국 1',
+            '밥',
+            '반찬 1',
+            '반찬 2',
+            '반찬 3'
+          ]
+        ];
+      });
+      throw Exception('Failed to load posts: ${response.statusCode}');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('월별 식단표'),
       ),
@@ -317,8 +664,11 @@ class _monthly_calendar extends State<monthly_calendar>
           onTap: () {
             setState(() {
               selectedDay = day;
-              // fetchMenus(DateFormat('yyyy년 MM월 dd일').format(selectedDate));
             });
+            if (selectedDay! < 10)
+              fetchMenus(DateFormat('yyyy-MM').format(selectedDate) + "-0" + selectedDay.toString());
+            else
+              fetchMenus(DateFormat('yyyy-MM').format(selectedDate) + "-" + selectedDay.toString());
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -367,13 +717,13 @@ class _monthly_calendar extends State<monthly_calendar>
           SizedBox(height: 16),
           for (var i = 0; i < breakfast.length; i++)
             if (breakfast[i][0] == _selectedLocation)
-              Text('아침: ' + breakfast[i].sublist(4).join(', ')),
+              Text('아침: ' + breakfast[i].sublist(3).join(', ')),
           for (var i = 0; i < lunch.length; i++)
             if (lunch[i][0] == _selectedLocation)
-              Text('점심: ' + lunch[i].sublist(4).join(', ')),
+              Text('점심: ' + lunch[i].sublist(3).join(', ')),
           for (var i = 0; i < dinner.length; i++)
             if (dinner[i][0] == _selectedLocation)
-              Text('저녁: ' + dinner[i].sublist(4).join(', ')),
+              Text('저녁: ' + dinner[i].sublist(3).join(', ')),
         ],
       ),
     );

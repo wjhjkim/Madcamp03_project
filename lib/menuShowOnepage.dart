@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class menu_show_one extends StatefulWidget {
-  const menu_show_one({super.key, required this.date, required this.breakfast, required this.lunch, required this.dinner});
+  const menu_show_one(
+      {super.key, required this.date, required this.breakfast, required this.lunch, required this.dinner});
 
   final DateTime date;
   final List<List<String>> breakfast;
@@ -37,18 +38,46 @@ class _show_menu extends State<menu_show_one>
           centerTitle: true,
           title: Text(DateFormat('yyyy년 MM월 dd일 메뉴').format(date)),
         ),
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-          for (var time in ["아침", "점심", "저녁"])
-            Column(children: [
-              Text(time),
-              for (var data in _locations)
+        body:
+        Column(children: [
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(width: 4,),
               Column(children: [
-                Text(data),
-                Text("sample data")
-              ],)],)
-          ],
-        ));
+                Text("아침", style: TextStyle(fontSize: 20),),
+                for (var data in _locations)
+                  Column(children: [
+                    Text(data, style: TextStyle(fontSize: 16),),
+                    for (var i in breakfast)
+                      if (i[0] == data)
+                        Text(i.sublist(3).join("\n"), textAlign: TextAlign.center,)
+                  ],)
+              ],),
+              Column(children: [
+                Text("점심", style: TextStyle(fontSize: 20),),
+                for (var data in _locations)
+                  Column(children: [
+                    Text(data, style: TextStyle(fontSize: 16),),
+                    for (var i in lunch)
+                      if (i[0] == data)
+                        Text(i.sublist(3).join("\n"), textAlign: TextAlign.center,)
+                  ],)
+              ],),
+              Column(children: [
+                Text("저녁", style: TextStyle(fontSize: 20),),
+                for (var data in _locations)
+                  Column(children: [
+                    Text(data, style: TextStyle(fontSize: 16),),
+                    for (var i in dinner)
+                      if (i[0] == data)
+                        Text(i.sublist(3).join("\n"), textAlign: TextAlign.center,)
+                  ],),
+              ],),
+              SizedBox(width: 4,),
+            ],
+          )
+        ],));
   }
 }

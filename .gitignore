@@ -17,6 +17,11 @@ migrate_working_dir/
 .idea/
 
 assets/.env
+assets/free-icon-font-calendar.png
+assets/free-icon-font-edit.png
+assets/free-icon-font-list.png
+lib/theme.dart
+lib/util.dart
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line

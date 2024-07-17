@@ -19,13 +19,15 @@ class _my_page extends State<my_page>
 
   Future<void> _loadUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    nickname = prefs.getString('userID') ?? '';
+    setState(() {
+      nickname = prefs.getString('userID') ?? '';
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    // _loadUserID();
+    _loadUserID();
   }
 
   @override
