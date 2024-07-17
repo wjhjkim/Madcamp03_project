@@ -103,7 +103,7 @@ class _MyPageState extends State<my_page> with TickerProviderStateMixin {
     return ElevatedButton.icon(
       onPressed: onPressed,
       icon: Icon(icon, color: Colors.white),
-      label: Text(label, style: TextStyle(color: Colors.white)),
+      label: Text(label, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800)),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,

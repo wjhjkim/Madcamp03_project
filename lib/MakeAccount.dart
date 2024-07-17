@@ -37,9 +37,9 @@ class _make_account extends State<MakeAccount> {
         );
         Navigator.pop(context);
       } else {
-        print('Failed: ${response.statusCode}');
+        print('Failed: ${response.statusCode} ${response.reasonPhrase}');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('회원가입이 실패했습니다. 오류코드: ${response.statusCode}')),
+          SnackBar(content: Text('회원가입이 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}')),
         );
       }
     }
@@ -57,6 +57,7 @@ class _make_account extends State<MakeAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('회원가입', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
@@ -127,7 +128,7 @@ class _make_account extends State<MakeAccount> {
               SizedBox(height: 32),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text('회원가입', style: TextStyle(fontSize: 16)),
+                child: Text('회원가입', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),),
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 48),
                   shape: RoundedRectangleBorder(

@@ -73,7 +73,7 @@ class _MenuDetailPage extends State<menuDetailPage> {
     String? allergiesJson = prefs.getString('allergies');
     if (allergiesJson != null) {
       final Map<String, bool> loadedAllergies =
-      Map<String, bool>.from(json.decode(allergiesJson));
+          Map<String, bool>.from(json.decode(allergiesJson));
       Future.delayed(Duration.zero, () {
         setState(() {
           _allergies = loadedAllergies;
@@ -114,13 +114,13 @@ class _MenuDetailPage extends State<menuDetailPage> {
         if (jsonResponse["allergy"] != []) {
           List<int> intList = jsonResponse["allergy"]
               .map((item) {
-            try {
-              return int.parse(item.toString());
-            } catch (e) {
-              print('Could not convert $item to int');
-              return null;
-            }
-          })
+                try {
+                  return int.parse(item.toString());
+                } catch (e) {
+                  print('Could not convert $item to int');
+                  return null;
+                }
+              })
               .where((item) => item != null)
               .cast<int>()
               .toList();
@@ -131,17 +131,22 @@ class _MenuDetailPage extends State<menuDetailPage> {
             jsonResponse["image"] ?? "https://via.placeholder.com/400";
       });
     } else {
+      print(
+          "메뉴 정보를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}" +
+              menu_name +
+              userID);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content:
-            Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+            content: Text(
+                '메뉴 정보를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}')),
       );
     }
   }
 
   void _getFoodReview(String menu_Name) async {
     final response = await http.get(
-      Uri.parse('${dotenv.env['SERVER_URL']}/review/get/food?foodName=$menu_Name'),
+      Uri.parse(
+          '${dotenv.env['SERVER_URL']}/review/get/food?foodName=$menu_Name'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -164,8 +169,8 @@ class _MenuDetailPage extends State<menuDetailPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content:
-            Text('리뷰를 불러오는 것을 실패했습니다. 오류코드: ${response.statusCode}')),
+            content: Text(
+                '리뷰를 불러오는 것을 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}')),
       );
     }
   }
@@ -189,8 +194,8 @@ class _MenuDetailPage extends State<menuDetailPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content:
-            Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+            content: Text(
+                '메뉴 하트를 변경하는 데 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}')),
       );
     }
   }
@@ -211,7 +216,8 @@ class _MenuDetailPage extends State<menuDetailPage> {
         // title: Text(menuName),
         backgroundColor: Color(0xfff5f7fa),
         iconTheme: IconThemeData(color: Colors.black),
-        titleTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        titleTextStyle:
+            TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -271,14 +277,14 @@ class _MenuDetailPage extends State<menuDetailPage> {
                       style: TextStyle(color: Colors.black),
                       children: [
                         ...allergy.map((item) {
-                          if (_allergies[_allergies_map[item]] == true) {
+                          if (_allergies[_allergies_map[item-1]] == true) {
                             return TextSpan(
-                              text: '${_allergies_map[item]} ',
+                              text: '${_allergies_map[item-1]} ',
                               style: TextStyle(color: Colors.red),
                             );
                           } else {
                             return TextSpan(
-                              text: '${_allergies_map[item]} ',
+                              text: '${_allergies_map[item-1]} ',
                               style: TextStyle(color: Colors.black),
                             );
                           }
@@ -293,6 +299,7 @@ class _MenuDetailPage extends State<menuDetailPage> {
                   ),
                   ...reviews.map((review) {
                     return Card(
+                      color: Colors.white,
                       margin: const EdgeInsets.symmetric(vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

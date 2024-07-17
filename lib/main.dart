@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'login page',
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),
+      debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     );
   }
@@ -78,9 +79,9 @@ class _SplashScreenState extends State<SplashScreen>
                 tab2_todays_menu()),
       );
     } else {
-      print('Failed: ${response.statusCode}');
+      print('Failed: ${response.statusCode} ${response.reasonPhrase}');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('로그인이 실패했습니다. 오류코드: ${response.statusCode}')),
+        SnackBar(content: Text('로그인이 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}')),
       );
     }
   }
@@ -120,7 +121,7 @@ class _SplashScreenState extends State<SplashScreen>
                 tab2_todays_menu()),
       );
     } else {
-      print('Token verification failed: ${response.statusCode}');
+      print('Token verification failed: ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -262,15 +263,24 @@ class _SplashScreenState extends State<SplashScreen>
                                 //       builder: (context) => tab2_todays_menu()), // 다음 페이지로 이동
                                 // );
                               },
-                              child: Text('로그인'),
+                              child: Text('로그인', style: TextStyle(fontWeight: FontWeight.w800),),
                               style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                foregroundColor: Colors.white,
                                 minimumSize: Size(double.infinity, 48),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                backgroundColor: Colors.blue, // 버튼 배경색
-                                foregroundColor: Colors.white, // 버튼 텍스트 색
+                                elevation: 2,
                               ),
+                              // style: ElevatedButton.styleFrom(
+                              //   minimumSize: Size(double.infinity, 48),
+                              //   shape: RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.circular(10),
+                              //   ),
+                              //   backgroundColor: Colors.blue, // 버튼 배경색
+                              //   foregroundColor: Colors.white, // 버튼 텍스트 색
+                              // ),
                             ),
                             SizedBox(height: 10),
                           ],
@@ -312,15 +322,24 @@ class _SplashScreenState extends State<SplashScreen>
                                       builder: (context) => MakeAccount()), // 회원가입 페이지로 이동
                                 );
                               },
-                              child: Text('회원가입'),
+                              child: Text('회원가입', style: TextStyle(fontWeight: FontWeight.w800),),
                               style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
                                 minimumSize: Size(double.infinity, 48),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                backgroundColor: Colors.green, // 버튼 배경색
-                                foregroundColor: Colors.white, // 버튼 텍스트 색
+                                elevation: 2,
                               ),
+                              // style: ElevatedButton.styleFrom(
+                              //   minimumSize: Size(double.infinity, 48),
+                              //   shape: RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.circular(10),
+                              //   ),
+                              //   backgroundColor: Colors.green, // 버튼 배경색
+                              //   foregroundColor: Colors.white, // 버튼 텍스트 색
+                              // ),
                             ),
                             SizedBox(height: 10),
                           ],

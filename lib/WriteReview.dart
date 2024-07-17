@@ -250,7 +250,7 @@ class _WriteReviewState extends State<write_review>
         ];
         updateMenu();
       });
-      throw Exception('Failed to load posts: ${response.statusCode}');
+      throw Exception('Failed to load posts: ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -324,7 +324,7 @@ class _WriteReviewState extends State<write_review>
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text('리뷰 제출을 실패했습니다. 오류코드: ${response.statusCode}')),
+              content: Text('리뷰 제출을 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}')),
         );
       }
     }
@@ -448,7 +448,7 @@ class _WriteReviewState extends State<write_review>
               Center(
                 child: ElevatedButton(
                     onPressed: _submitReview,
-                    child: Text('리뷰 제출'),
+                    child: Text('리뷰 제출', style: TextStyle(fontWeight: FontWeight.w800),),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,

@@ -81,7 +81,9 @@ class _MyCustomScrollView extends State<MyCustomScrollView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Hero(
+        tag: 'menucard',
+        child: Scaffold(
       backgroundColor: Color(0xfff5f7fa),
         body: CustomScrollView(
       slivers: [
@@ -172,7 +174,7 @@ class _MyCustomScrollView extends State<MyCustomScrollView> {
           ),
         ),
       ],
-    ));
+    )));
   }
 }
 
@@ -333,9 +335,9 @@ class _FavoriteCardState extends State<FavoriteCard> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content:
-            Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+            Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}')),
       );
-      print("오류발생: ${response.statusCode}");
+      print("오류발생: ${response.statusCode} ${response.reasonPhrase}");
     }
   }
 
@@ -359,7 +361,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content:
-            Text('메뉴 하트를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}')),
+            Text('메뉴 하트를 변경하는 데 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}')),
       );
     }
   }
@@ -393,14 +395,14 @@ class _FavoriteCardState extends State<FavoriteCard> {
             style: TextStyle(color: Colors.black),
             children: [
               ...allergy.map((item) {
-                if (_allergies[_allergies_map[item]] == true) {
+                if (_allergies[_allergies_map[item-1]] == true) {
                   return TextSpan(
-                    text: '${_allergies_map[item]} ',
+                    text: '${_allergies_map[item-1]} ',
                     style: TextStyle(color: Colors.red),
                   );
                 } else {
                   return TextSpan(
-                    text: '${_allergies_map[item]} ',
+                    text: '${_allergies_map[item-1]} ',
                     style: TextStyle(color: Colors.black),
                   );
                 }

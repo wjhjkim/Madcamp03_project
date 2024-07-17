@@ -91,7 +91,7 @@ class _MonthlyCalendarState extends State<monthly_calendar>
           ['동측식당', 'assets/sample_image.jpg', '4.0', '주 메뉴 4', '국 1', '밥', '반찬 1', '반찬 2', '반찬 3']
         ];
       });
-      throw Exception('Failed to load posts: ${response.statusCode}');
+      throw Exception('Failed to load posts: ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 

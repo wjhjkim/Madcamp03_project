@@ -14,9 +14,9 @@ class reviewlistpage extends StatefulWidget {
 
 class ReviewListPage extends State<reviewlistpage> {
   List<List<String>> reviews = [
-    ['정말 맛있어요!', "menu", "String", "5.0"],
-    ['괜찮아요.', "menu", "String", "3.0"],
-    ['별로였어요.', "menu", "String", "1.0"],
+    // ['정말 맛있어요!', "menu", "String", "5.0"],
+    // ['괜찮아요.', "menu", "String", "3.0"],
+    // ['별로였어요.', "menu", "String", "1.0"],
   ];
 
   String userID = "";
@@ -59,7 +59,7 @@ class ReviewListPage extends State<reviewlistpage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('리뷰를 불러오는 것을 실패했습니다. 오류코드: ${response.statusCode}')),
+            content: Text('리뷰를 불러오는 것을 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}')),
       );
     }
   }

@@ -16,16 +16,16 @@ class Heartpage extends StatefulWidget {
 
 class _FavoriteMenuPage extends State<Heartpage> {
   List<String> favoriteMenus = [
-    'Spaghetti Carbonara',
-    'Margherita Pizza',
-    'Caesar Salad',
-    'Grilled Salmon',
-    'Chicken Alfredo',
-    'Beef Tacos',
-    'Sushi Platter',
-    'Vegetable Stir Fry',
-    'BBQ Ribs',
-    'Mango Smoothie'
+    // 'Spaghetti Carbonara',
+    // 'Margherita Pizza',
+    // 'Caesar Salad',
+    // 'Grilled Salmon',
+    // 'Chicken Alfredo',
+    // 'Beef Tacos',
+    // 'Sushi Platter',
+    // 'Vegetable Stir Fry',
+    // 'BBQ Ribs',
+    // 'Mango Smoothie'
   ];
 
   String userID = "";
@@ -60,8 +60,7 @@ class _FavoriteMenuPage extends State<Heartpage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content:
-          Text('좋아하는 메뉴를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode}'),
+          content: Text('좋아하는 메뉴를 불러오는 데 실패했습니다. 오류코드: ${response.statusCode} ${response.reasonPhrase}'),
         ),
       );
     }

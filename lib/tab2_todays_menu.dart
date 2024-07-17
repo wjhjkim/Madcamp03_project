@@ -610,7 +610,7 @@ class _todays_menuState extends State<tab2_todays_menu>
         ];
         updateMenu();
       });
-      throw Exception('Failed to load posts: ${response.statusCode}');
+      throw Exception('Failed to load posts: ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -906,6 +906,8 @@ class _todays_menuState extends State<tab2_todays_menu>
                                 ),
                               );
                             },
+                            child: Hero(
+                            tag: 'menucard',
                             child: Card(
                               color: Colors.white,
                               elevation: 4,
@@ -933,7 +935,7 @@ class _todays_menuState extends State<tab2_todays_menu>
                                       MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          '${menu[index][3]}',
+                                          '${menu[index][5]}',
                                           style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,
@@ -966,7 +968,7 @@ class _todays_menuState extends State<tab2_todays_menu>
                                     ),
                                     SizedBox(height: 8),
                                     ...menu[index]
-                                        .sublist(4)
+                                        .sublist(3, 8)
                                         .map((item) => Padding(
                                       padding: const EdgeInsets.only(
                                           bottom: 4.0),
@@ -983,7 +985,7 @@ class _todays_menuState extends State<tab2_todays_menu>
                                   ],
                                 ),
                               ),
-                            ));
+                            )));
                       },
                     ),
                   ),

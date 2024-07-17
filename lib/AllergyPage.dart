@@ -111,7 +111,7 @@ class _AllergyManagementPageState extends State<AllergyPage> {
               onPressed: _saveAllergies,
               child: Text(
                 '저장하기',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
