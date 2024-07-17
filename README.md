@@ -39,7 +39,7 @@ DB: MySQL, EC2 인스턴스 내부 설치
     - 로그인 이후 서버에서 jwt 토큰을 생성해 앱을 다시 실행할 때 자동으로 로그인됩니다.
 - 회원가입을 통해 아이디와 비밀번호를 생성할 수 있습니다.
     
-    [1_로그인화면.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/7e01cbe7-c816-4477-96e4-a1c363906143/1_%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%99%94%EB%A9%B4.mp4)
+https://github.com/user-attachments/assets/b11d1d2e-b478-4a89-bea9-8876219444e1
     
 
 ### 2. 메인 메뉴 페이지
